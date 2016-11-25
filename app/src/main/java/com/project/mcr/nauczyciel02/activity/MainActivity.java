@@ -91,7 +91,7 @@ public class MainActivity extends Activity {
 
         // Displaying the user details on the screen
         txtName.setText("Nazwa: " + name);
-        txtEmail.setText("email: " + email);
+        txtEmail.setText("Email: " + email);
 
         // Logout button click event
         /*btnLogout.setOnClickListener(new View.OnClickListener() {
