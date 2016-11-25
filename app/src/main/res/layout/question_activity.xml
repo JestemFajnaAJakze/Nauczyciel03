@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Edytor pytania"
+        android:id="@+id/textView2"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/question"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="4"
+        android:hint="Wpisz pytanie" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="8">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="4">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/answerA"
+                android:layout_gravity="center_horizontal"
+                android:hint="Odpowiedź A"
+                android:layout_weight="1" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/answerB"
+                android:layout_gravity="center_horizontal"
+                android:hint="Odpowiedź B"
+                android:layout_weight="1" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/answerC"
+                android:layout_gravity="center_horizontal"
+                android:hint="Odpowiedź C"
+                android:layout_weight="1" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/answerD"
+                android:layout_gravity="center_horizontal"
+                android:hint="Odpowiedź D"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:id="@+id/radioButton"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:id="@+id/radioButton2"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:id="@+id/radioButton3"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:id="@+id/radioButton4"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="Stwórz"
+        android:id="@+id/addAnswer"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1" />
+
+</LinearLayout>

@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Nauczyciel02</string>
+    <string-array name="options">
+        <item>Zarzadzanie kategoriami</item>
+        <item>Zarzadzanie pytaniami</item>
+        <item>Zarzadzanie testami</item>
+        <item>Zarzadzanie kontami uczniow</item>
+    </string-array>
+</resources>
