@@ -118,8 +118,8 @@ public class MainActivity extends Activity {
                 }
             }
         };
-        ListView listView = (ListView) findViewById(R.id.list_options);
-        listView.setOnClickListener((View.OnClickListener) itemClickListener2);
+       /* ListView listView = (ListView) findViewById(R.id.list_options);
+        listView.setOnClickListener((View.OnClickListener) itemClickListener2);*/
 
         /**
          * Logging out the user. Will set isLoggedIn flag to false in shared
