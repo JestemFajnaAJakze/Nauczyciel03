@@ -168,8 +168,8 @@ public class LoginActivity extends Activity {
                         String password = users.getString("password");
 
                         // Inserting row in users table
-                        db.addUser(name, email, password);
-
+                        //db.addUser(name, email, password);
+                        Toast.makeText(getApplicationContext(), "Witaj "+name+"!", Toast.LENGTH_LONG).show();
                         // Launch main activity
                         Intent intent = new Intent(LoginActivity.this,
                                 MainActivity.class);

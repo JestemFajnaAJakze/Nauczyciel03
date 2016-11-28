@@ -54,11 +54,11 @@ public class RegisterActivity extends Activity {
         String email = inputEmail.getText().toString().trim();
         String password = inputPassword.getText().toString().trim();
 
-        Toast.makeText(getApplicationContext(), "name: "+name+" email: "+email+" password: "+password, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), "name: "+name+" email: "+email+" password: "+password, Toast.LENGTH_LONG).show();
 
 
         if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
-            Toast.makeText(getApplicationContext(), "name: "+name+" email: "+email+" password: "+password, Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "name: "+name+" email: "+email+" password: "+password, Toast.LENGTH_LONG).show();
             registerUser(name, email, password);
         } else {
             Toast.makeText(getApplicationContext(),
@@ -166,9 +166,9 @@ public class RegisterActivity extends Activity {
                         String password = users.getString("password");
 
                         // Inserting row in users table
-                        db.addUser(name, email, password);
-
-                        Toast.makeText(getApplicationContext(), "User successfully registered. Try login now!", Toast.LENGTH_LONG).show();
+                        //db.addUser(name, email, password);
+                        Toast.makeText(getApplicationContext(), "User name: "+name, Toast.LENGTH_LONG).show();
+                       // Toast.makeText(getApplicationContext(), "User successfully registered. Try login now!", Toast.LENGTH_LONG).show();
 
                         // Launch login activity
                         Intent intent = new Intent(
