@@ -24,5 +24,6 @@
         android:layout_height="wrap_content"
         android:text="Dodaj"
         android:id="@+id/addCategory"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:onClick="onClickAddCategoryActivity" />
 </LinearLayout>

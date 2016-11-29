@@ -40,7 +40,7 @@ public class MainActivity extends Activity {
 
 
     public void onClickQuestion(View v) {
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        Intent intent = new Intent(getApplicationContext(), QuestionListActivity.class);
         startActivity(intent);
     }
 
@@ -48,14 +48,17 @@ public class MainActivity extends Activity {
 
 
     public void onClickTest(View v) {
-        Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+        Intent intent = new Intent(getApplicationContext(), TestListActivity.class);
         startActivity(intent);
     }
 
     ;
 
     public void onClicklogoutUser(View v) {
-        logoutUser();
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+        //logoutUser();
     }
 
     ;
@@ -80,7 +83,7 @@ public class MainActivity extends Activity {
         session = new SessionManager(getApplicationContext());
 
         if (!session.isLoggedIn()) {
-            logoutUser();
+            //logoutUser();
         }
 
         // Fetching user details from sqlite

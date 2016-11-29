@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.project.mcr.nauczyciel02.R;
 
@@ -18,6 +19,7 @@ public class AddCategoryActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_category);
+        categoryName = (EditText)findViewById(R.id.categoryTxt);
 
     }
 
@@ -25,5 +27,8 @@ public class AddCategoryActivity extends Activity {
         //
         String category = categoryName.getText().toString().trim();
         //DODAJE DO BAZY nową kategorię
+        Toast.makeText(getApplicationContext(),
+                "Dodano kategorie "+category, Toast.LENGTH_LONG)
+                .show();
     }
 }

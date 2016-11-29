@@ -50,7 +50,9 @@ public class LoginActivity extends Activity {
         // Check for empty data in the form
         if (!email.isEmpty() && !password.isEmpty()) {
             // login user
-            checkLogin(email, password);
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            //checkLogin(email, password);
         } else {
             // Prompt user to enter credentials
             Toast.makeText(getApplicationContext(),

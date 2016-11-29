@@ -46,6 +46,18 @@
             android:name=".activity.RegisterActivity"
 
             android:label="Registration" />
+        <activity
+            android:name=".activity.AddCategoryActivity"
+
+            android:label="Registration" />
+        <activity
+            android:name=".activity.TestListActivity"
+
+            android:label="Registration" />
+        <activity
+            android:name=".activity.QuestionListActivity"
+
+            android:label="Registration" />
     </application>
 
 </manifest>

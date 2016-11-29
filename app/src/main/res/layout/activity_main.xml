@@ -34,20 +34,62 @@
             android:layout_height="0dp"
             android:text="Dostepne akcje"
             android:id="@+id/textView3"
-            android:layout_weight="4" />
+            android:layout_weight="4"
+            android:layout_gravity="center" />
 
-        <ListView
-            android:id="@+id/list_options"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:entries="@array/options"
-            android:layout_weight="8"></ListView>
+            android:layout_weight="10">
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Zarzadzaj kategoriami"
+                android:id="@+id/categoryButton"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_gravity="center"
+                android:onClick="onClickCategory" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Zarzadzaj pytaniami"
+                android:id="@+id/questionButton"
+                android:layout_row="0"
+                android:layout_column="1"
+                android:layout_gravity="center"
+                android:onClick="onClickQuestion" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Zarzadzaj testami"
+                android:id="@+id/testButton"
+                android:layout_row="1"
+                android:layout_column="0"
+                android:layout_gravity="center"
+                android:onClick="onClickTest" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Zarzadzaj kontami uczniow"
+                android:id="@+id/studentButton"
+                android:layout_row="1"
+                android:layout_column="1"
+                android:layout_gravity="center" />
+        </LinearLayout>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:text="Wyloguj"
             android:id="@+id/btnLogout"
-            android:layout_weight="2" />
+            android:layout_weight="2"
+            android:onClick="onClicklogoutUser" />
     </LinearLayout>
 
 </RelativeLayout>
