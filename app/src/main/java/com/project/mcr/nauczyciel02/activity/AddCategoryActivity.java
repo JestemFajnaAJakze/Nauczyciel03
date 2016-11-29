@@ -22,7 +22,7 @@ public class AddCategoryActivity extends Activity {
     }
 
     public void onClickAddCategory(View v){
-
+        //
         String category = categoryName.getText().toString().trim();
         //DODAJE DO BAZY nową kategorię
     }
