@@ -58,6 +58,10 @@
             android:name=".activity.QuestionListActivity"
 
             android:label="Registration" />
+        <activity
+            android:name=".activity.AddQuestionActivity"
+
+            android:label="Registration" />
     </application>
 
 </manifest>

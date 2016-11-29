@@ -1,7 +1,9 @@
 package com.project.mcr.nauczyciel02.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.project.mcr.nauczyciel02.R;
 
@@ -12,7 +14,7 @@ public class QuestionListActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_list);
+        setContentView(R.layout.activity_question_list);
 
         /*AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnClickListener(){
             @Override
@@ -28,5 +30,11 @@ public class QuestionListActivity extends Activity {
             };
         ;};*/
 
+    }
+
+
+    public void onClickAddQuestionActivity(View v){
+        Intent intent = new Intent(getApplicationContext(), AddQuestionActivity.class);
+        startActivity(intent);
     }
 }
