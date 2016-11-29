@@ -62,6 +62,10 @@
             android:name=".activity.AddQuestionActivity"
 
             android:label="Registration" />
+        <activity
+            android:name=".activity.AddTestActivity"
+
+            android:label="Registration" />
     </application>
 
 </manifest>
