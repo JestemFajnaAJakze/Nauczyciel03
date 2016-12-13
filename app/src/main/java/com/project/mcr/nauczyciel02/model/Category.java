@@ -1,11 +1,19 @@
-package com.project.mcr.nauczyciel02.activity;
+package com.project.mcr.nauczyciel02.model;
 
 /**
  * Created by MCR on 24.11.2016.
  */
 public class Category {
 
-    private int _id;
+    public int getCategory_id() {
+        return category_id;
+    }
+
+    public void setCategory_id(int category_id) {
+        this.category_id = category_id;
+    }
+
+    private int category_id;
     private String name;
 
     public static final Category[] categories = {
@@ -13,7 +21,7 @@ public class Category {
     };
 
     public Category(int id, String name) {
-        this._id= id;
+        this.category_id= id;
         this.name = name;
 
     }
@@ -26,11 +34,5 @@ public class Category {
         this.name = name;
     }
 
-    public int get_id() {
-        return _id;
-    }
 
-    public void set_id(int _id) {
-        this._id = _id;
-    }
 }
