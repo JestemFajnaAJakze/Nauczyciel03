@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.project.mcr.nauczyciel02.R;
 
+import java.util.LinkedList;
+
 /**
  * Created by MCR on 24.11.2016.
  */
@@ -27,19 +29,20 @@ public class TestListActivity extends Activity {
         setContentView(R.layout.activity_test_list);
 
         ListView testList = (ListView) findViewById(R.id.testList);
-        final Test[] tests = {
-                new Test(1,1,"Matematyka 001"),
-                new Test(2,1,"Matematyka 002"),
-                new Test(3,1,"Matematyka 003")
-        };
 
-        TestAdapter adapter = new TestAdapter(tests);
+
+        final LinkedList<Test> tests1 = new LinkedList<Test>();
+        tests1.add(new Test(1,1,"Matematyka 001"));
+        tests1.add(new Test(2,1,"Matematyka 002"));
+        tests1.add(new Test(3,1,"Matematyka 003"));
+
+        TestAdapter adapter = new TestAdapter(tests1);
         testList.setAdapter(adapter);
 
         testList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "Wybrano test " + position,
+                Toast.makeText(getApplicationContext(), "Wybrano test " + tests1.get(position).getName(),
                         Toast.LENGTH_SHORT).show();
             }
         });
@@ -87,18 +90,20 @@ public class TestListActivity extends Activity {
 
         private Test[] Tests;
 
-        public TestAdapter(Test[] Tests) {
-            this.Tests = Tests;
+        private LinkedList<Test> tests1;
+
+        public TestAdapter(LinkedList<Test> tests1) {
+            this.tests1 = tests1;
         }
 
         @Override
         public int getCount() {
-            return Tests.length;
+            return tests1.size();
         }
 
         @Override
         public Test getItem(int position) {
-            return Tests[position];
+            return tests1.get(position);
         }
 
         @Override

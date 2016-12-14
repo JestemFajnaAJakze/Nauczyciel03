@@ -39,18 +39,14 @@ public class CategoryListActivity extends Activity {
 
 
         ListView categoryList = (ListView) findViewById(R.id.categoryList);
-        final Category[] categories = {
-                new Category(1, "Matematyka"),
-                new Category(2, "Przedmioty przyrodnicze"),
-                new Category(3, "J. Polski")
-        };
+
 
         final LinkedList<Category> categories1 = new LinkedList<Category>();
         categories1.add(new Category(1, "Matematyka"));
         categories1.add(new Category(2, "Przedmioty przyrodnicze"));
         categories1.add(new Category(3, "J. Polski"));
 
-        CategoryAdapter adapter = new CategoryAdapter(categories);
+        CategoryAdapter adapter = new CategoryAdapter(categories1);
         categoryList.setAdapter(adapter);  //setAdapter(adapter);
 
         categoryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -97,20 +93,21 @@ public class CategoryListActivity extends Activity {
 
     private class CategoryAdapter extends BaseAdapter {
 
-        private Category[] Categories;
 
-        public CategoryAdapter(Category[] Categories) {
-            this.Categories = Categories;
+
+        private LinkedList<Category> categories1;
+        public CategoryAdapter(LinkedList<Category> categories1) {
+            this.categories1 = categories1;
         }
 
         @Override
         public int getCount() {
-            return Categories.length;
+            return categories1.size();
         }
 
         @Override
         public Category getItem(int position) {
-            return Categories[position];
+            return categories1.get(position);
         }
 
         @Override

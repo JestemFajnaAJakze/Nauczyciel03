@@ -19,6 +19,7 @@ import com.project.mcr.nauczyciel02.R;
 
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Created by MCR on 24.11.2016.
@@ -32,19 +33,21 @@ public class QuestionListActivity extends Activity  {
         setContentView(R.layout.activity_question_list);
 
         ListView questionList = (ListView) findViewById(R.id.questionList);
-        final Question[] questions = {
-                new Question(1, "Pytanie 1"),
-                new Question(2, "Pytanie 2"),
-                new Question(3, "Pytanie 3")
-        };
 
-        QuestionAdapter adapter = new QuestionAdapter(questions);
+
+        final LinkedList<Question> questions1 = new LinkedList<Question>();
+        questions1.add(new Question(1, "Pytanie 1"));
+        questions1.add(new Question(2, "Pytanie 2"));
+        questions1.add(new Question(3, "Pytanie 3"));
+
+
+        QuestionAdapter adapter = new QuestionAdapter(questions1);
         questionList.setAdapter(adapter);  //setAdapter(adapter);
 
         questionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "Wybrano pytanie " + position,
+                Toast.makeText(getApplicationContext(), "Wybrano pytanie " + questions1.get(position).getName(),
                         Toast.LENGTH_SHORT).show();
             }
         });
@@ -83,19 +86,22 @@ private class Question{
 private class QuestionAdapter extends BaseAdapter {
 
     private Question[] Questions;
+    private LinkedList<Question> questions1;
 
-    public QuestionAdapter(Question[] Questions) {
-        this.Questions = Questions;
+
+
+    public QuestionAdapter(LinkedList<Question> questions1) {
+        this.questions1 = questions1;
     }
 
     @Override
     public int getCount() {
-        return Questions.length;
+        return questions1.size();
     }
 
     @Override
     public Question getItem(int position) {
-        return Questions[position];
+        return questions1.get(position);
     }
 
     @Override
