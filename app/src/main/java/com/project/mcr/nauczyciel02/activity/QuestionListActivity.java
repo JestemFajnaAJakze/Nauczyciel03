@@ -47,7 +47,7 @@ public class QuestionListActivity extends Activity  {
         questionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "Wybrano pytanie " + questions1.get(position).getName(),
+                Toast.makeText(getApplicationContext(), "Wybrano pytanie " + position,
                         Toast.LENGTH_SHORT).show();
             }
         });
@@ -85,7 +85,7 @@ private class Question{
 
 private class QuestionAdapter extends BaseAdapter {
 
-    private Question[] Questions;
+
     private LinkedList<Question> questions1;
 
 

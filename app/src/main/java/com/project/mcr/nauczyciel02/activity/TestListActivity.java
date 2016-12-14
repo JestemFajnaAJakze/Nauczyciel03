@@ -88,7 +88,7 @@ public class TestListActivity extends Activity {
 
     private class TestAdapter extends BaseAdapter {
 
-        private Test[] Tests;
+
 
         private LinkedList<Test> tests1;
 

@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 
 import com.project.mcr.nauczyciel02.R;
+import com.project.mcr.nauczyciel02.model.Category;
 
 /**
  * Created by MCR on 24.11.2016.
@@ -39,12 +40,9 @@ public class CategoryListActivity extends Activity {
 
 
         ListView categoryList = (ListView) findViewById(R.id.categoryList);
+        LinkedList<com.project.mcr.nauczyciel02.model.Category> categories1 = new LinkedList<com.project.mcr.nauczyciel02.model.Category>();
+        categories1 = (LinkedList< com.project.mcr.nauczyciel02.model.Category>)getIntent().getSerializableExtra("CategoryList");
 
-
-        final LinkedList<Category> categories1 = new LinkedList<Category>();
-        categories1.add(new Category(1, "Matematyka"));
-        categories1.add(new Category(2, "Przedmioty przyrodnicze"));
-        categories1.add(new Category(3, "J. Polski"));
 
         CategoryAdapter adapter = new CategoryAdapter(categories1);
         categoryList.setAdapter(adapter);  //setAdapter(adapter);
@@ -55,48 +53,21 @@ public class CategoryListActivity extends Activity {
 
                 //Object object = this.getItem(position);
 
-                Toast.makeText(getApplicationContext(), "Wybrano kategorie: " + categories1.get(position).getName(),
+                Toast.makeText(getApplicationContext(), "Wybrano kategorie: ",
                         Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private class Category{
-
-        private int category_id;
-        private String name;
-
-        public Category(int category_id, String name) {
-            this.category_id = category_id;
-            this.name = name;
-        }
-
-        public int getCategory_id() {
-            return category_id;
-        }
-
-        public void setCategory_id(int category_id) {
-            this.category_id = category_id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
 
 
-
-    }
 
     private class CategoryAdapter extends BaseAdapter {
 
 
 
-        private LinkedList<Category> categories1;
-        public CategoryAdapter(LinkedList<Category> categories1) {
+        private LinkedList<com.project.mcr.nauczyciel02.model.Category> categories1;
+        public CategoryAdapter(LinkedList<com.project.mcr.nauczyciel02.model.Category> categories1) {
             this.categories1 = categories1;
         }
 
@@ -106,7 +77,7 @@ public class CategoryListActivity extends Activity {
         }
 
         @Override
-        public Category getItem(int position) {
+        public com.project.mcr.nauczyciel02.model.Category getItem(int position) {
             return categories1.get(position);
         }
 

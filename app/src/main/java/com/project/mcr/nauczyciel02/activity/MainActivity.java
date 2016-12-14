@@ -7,8 +7,10 @@ import com.project.mcr.nauczyciel02.R;
 import com.project.mcr.nauczyciel02.helper.SQLiteHandler;
 import com.project.mcr.nauczyciel02.helper.SQLiteHandlerOLD;
 import com.project.mcr.nauczyciel02.helper.SessionManager;
+import com.project.mcr.nauczyciel02.model.Category;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -30,9 +32,14 @@ public class MainActivity extends Activity {
     private SQLiteHandler db;
     private SessionManager session;
 
+    LinkedList<Category> categories1;
+
+
+
 
     public void onClickCategory(View v) {
         Intent intent = new Intent(getApplicationContext(), CategoryListActivity.class);
+        intent.putExtra("CategoryList", categories1);
         startActivity(intent);
     }
 
@@ -71,9 +78,17 @@ public class MainActivity extends Activity {
         txtName = (TextView) findViewById(R.id.name);
         txtEmail = (TextView) findViewById(R.id.email);
         btnLogout = (Button) findViewById(R.id.btnLogout);
-        /*categoryButton = (Button) findViewById(R.id.categoryButton);
-        questionButton = (Button) findViewById(R.id.questionButton);
-        testButton = (Button) findViewById(R.id.testButton);*/
+
+
+
+        final LinkedList<Category> categories1 = new LinkedList<Category>();
+        categories1.add(new Category(1, "Matematyka"));
+        categories1.add(new Category(2, "Przedmioty przyrodnicze"));
+        categories1.add(new Category(3, "J. Polskiiii"));
+
+
+
+
 
 
         // SqLite database handler
