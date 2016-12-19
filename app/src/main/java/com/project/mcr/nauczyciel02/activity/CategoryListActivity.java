@@ -1,105 +1,99 @@
 package com.project.mcr.nauczyciel02.activity;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import com.project.mcr.nauczyciel02.R;
 
-import com.project.mcr.nauczyciel02.helper.SQLiteHandler;
-import com.project.mcr.nauczyciel02.helper.SQLiteHandlerOLD;
-import com.project.mcr.nauczyciel02.helper.SessionManager;
+import com.project.mcr.nauczyciel02.endpoint.CategoryGET;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.SimpleAdapter;
 
 
-import com.project.mcr.nauczyciel02.R;
 import com.project.mcr.nauczyciel02.model.Category;
+import com.squareup.okhttp.OkHttpClient;
+
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.OkClient;
 
 /**
  * Created by MCR on 24.11.2016.
  */
 public class CategoryListActivity extends Activity {
+
+    static final String API_URL = "http://192.168.1.100/android_login_api2";
+    ListView category_listview;
+    RestAdapter restAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_list);
 
-
-        ListView categoryList = (ListView) findViewById(R.id.categoryList);
-        LinkedList<com.project.mcr.nauczyciel02.model.Category> categories1 = new LinkedList<com.project.mcr.nauczyciel02.model.Category>();
-        categories1 = (LinkedList< com.project.mcr.nauczyciel02.model.Category>)getIntent().getSerializableExtra("CategoryList");
+        category_listview = (ListView) findViewById(R.id.categoryList) ;
 
 
-        CategoryAdapter adapter = new CategoryAdapter(categories1);
-        categoryList.setAdapter(adapter);  //setAdapter(adapter);
+        OkHttpClient mOkHttpClient = new OkHttpClient();
+        mOkHttpClient.setConnectTimeout(15000,TimeUnit.MILLISECONDS);
+        mOkHttpClient.setReadTimeout(15000, TimeUnit.MILLISECONDS);
 
-        categoryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        restAdapter = new RestAdapter.Builder()
+                .setEndpoint(API_URL)
+                .setClient(new OkClient(mOkHttpClient))
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .build();
+        CategoryGET methods = restAdapter.create(CategoryGET.class);
+
+
+        Callback<List<Category>> cb = new Callback<List<Category>>() {
+
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void success(List<Category> categories, retrofit.client.Response response) {
+                //Log.v("BookListActivity", booksString);
+                //TypeToken<List<Book>> token = new TypeToken<List<Book>>() {};
+                //List<Book> books = new Gson().fromJson(booksString, token.getType());
 
-                //Object object = this.getItem(position);
+                List<HashMap<String,Object>> bookMapList = new ArrayList<>();
+                for(Category c: categories){
+                    HashMap<String, Object> bookmap = new HashMap<>();
 
-                Toast.makeText(getApplicationContext(), "Wybrano kategorie: ",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+                    try {
 
+                        bookmap.put(c.getClass().getField("category_id").getName(),c.getCategory_id());
+                        bookmap.put(c.getClass().getField("name").getName(),c.getName());
 
+                        bookMapList.add(bookmap);
+                    } catch (NoSuchFieldException e) {
+                        e.printStackTrace();
+                    }
+                }
+                SimpleAdapter adapter = new SimpleAdapter(getApplication(), bookMapList, R.layout.list_item_category,
+                        new String [] {"category_id", "name"},new int [] {R.id.categoryId, R.id.categoryName});
 
-
-    private class CategoryAdapter extends BaseAdapter {
-
-
-
-        private LinkedList<com.project.mcr.nauczyciel02.model.Category> categories1;
-        public CategoryAdapter(LinkedList<com.project.mcr.nauczyciel02.model.Category> categories1) {
-            this.categories1 = categories1;
-        }
-
-        @Override
-        public int getCount() {
-            return categories1.size();
-        }
-
-        @Override
-        public com.project.mcr.nauczyciel02.model.Category getItem(int position) {
-            return categories1.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = inflater.inflate(R.layout.list_item_category, parent, false);
+                category_listview.setAdapter(adapter);
             }
 
-            TextView categoryName = (TextView) convertView.findViewById(R.id.categoryName);
 
 
-            categoryName.setText(getItem(position).getName());
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e("BookListActivity", error.getMessage() +"\n"+ error.getStackTrace());
+                error.printStackTrace();
+            }
+        };
+        methods.getBooks(cb);
 
-            return convertView;
-        }
     }
 
     public void onClickAddCategoryActivity(View v){
