@@ -1,6 +1,7 @@
 package com.project.mcr.nauczyciel02.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -58,9 +59,9 @@ public class AddCategoryActivity extends Activity {
 
             @Override
             public void success(List<Category> categories, Response response) {
-                Toast.makeText(getApplicationContext(),
+                /*Toast.makeText(getApplicationContext(),
                         "Dodano kategorie", Toast.LENGTH_LONG)
-                        .show();
+                        .show();*/
             }
 
             @Override
@@ -78,5 +79,7 @@ public class AddCategoryActivity extends Activity {
         Toast.makeText(getApplicationContext(),
                 "Dodano kategorie "+category, Toast.LENGTH_LONG)
                 .show();
+        Intent intent = new Intent(getApplicationContext(), CategoryListActivity.class);
+        startActivity(intent);
     }
 }
