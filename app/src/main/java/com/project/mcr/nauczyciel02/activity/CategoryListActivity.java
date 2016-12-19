@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.project.mcr.nauczyciel02.R;
 
-import com.project.mcr.nauczyciel02.endpoint.CategoryGET;
+import com.project.mcr.nauczyciel02.endpoint.RetrofitAPI;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,7 +53,7 @@ public class CategoryListActivity extends Activity {
                 .setClient(new OkClient(mOkHttpClient))
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
-        CategoryGET methods = restAdapter.create(CategoryGET.class);
+        RetrofitAPI methods = restAdapter.create(RetrofitAPI.class);
 
 
         Callback<List<Category>> cb = new Callback<List<Category>>() {
@@ -88,11 +88,68 @@ public class CategoryListActivity extends Activity {
 
             @Override
             public void failure(RetrofitError error) {
-                Log.e("BookListActivity", error.getMessage() +"\n"+ error.getStackTrace());
+                Log.e("CategoryListActivity", error.getMessage() +"\n"+ error.getStackTrace());
                 error.printStackTrace();
             }
         };
-        methods.getBooks(cb);
+        methods.getCategoryList(cb);
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        setContentView(R.layout.activity_category_list);
+
+        category_listview = (ListView) findViewById(R.id.categoryList) ;
+
+
+        OkHttpClient mOkHttpClient = new OkHttpClient();
+        mOkHttpClient.setConnectTimeout(15000,TimeUnit.MILLISECONDS);
+        mOkHttpClient.setReadTimeout(15000, TimeUnit.MILLISECONDS);
+
+        restAdapter = new RestAdapter.Builder()
+                .setEndpoint(API_URL)
+                .setClient(new OkClient(mOkHttpClient))
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .build();
+        RetrofitAPI methods = restAdapter.create(RetrofitAPI.class);
+
+
+        Callback<List<Category>> cb = new Callback<List<Category>>() {
+
+            @Override
+            public void success(List<Category> categories, retrofit.client.Response response) {
+                //Log.v("BookListActivity", booksString);
+                //TypeToken<List<Book>> token = new TypeToken<List<Book>>() {};
+                //List<Book> books = new Gson().fromJson(booksString, token.getType());
+
+                List<HashMap<String,Object>> categoryMapList = new ArrayList<>();
+                for(Category c: categories){ 
+                    HashMap<String, Object> categoryMap = new HashMap<>();
+
+                    try {
+
+                        categoryMap.put(c.getClass().getField("category_id").getName(),c.getCategory_id());
+                        categoryMap.put(c.getClass().getField("name").getName(),c.getName());
+
+                        categoryMapList.add(categoryMap);
+                    } catch (NoSuchFieldException e) {
+                        e.printStackTrace();
+                    }
+                }
+                SimpleAdapter adapter = new SimpleAdapter(getApplication(), categoryMapList, R.layout.list_item_category,
+                        new String [] {"category_id", "name"},new int [] {R.id.categoryId, R.id.categoryName});
+
+                category_listview.setAdapter(adapter);
+            }
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e("CategoryListActivity", error.getMessage() +"\n"+ error.getStackTrace());
+                error.printStackTrace();
+            }
+        };
+        methods.getCategoryList(cb);
 
     }
 

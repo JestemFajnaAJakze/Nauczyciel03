@@ -1,31 +1,21 @@
 package com.project.mcr.nauczyciel02.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.project.mcr.nauczyciel02.R;
-import com.project.mcr.nauczyciel02.endpoint.CategoryGET;
+import com.project.mcr.nauczyciel02.endpoint.RetrofitAPI;
 import com.project.mcr.nauczyciel02.model.Question;
 import com.squareup.okhttp.OkHttpClient;
 
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -60,7 +50,7 @@ public class QuestionListActivity extends Activity  {
                 .setClient(new OkClient(mOkHttpClient))
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
-        CategoryGET methods = restAdapter.create(CategoryGET.class);
+        RetrofitAPI methods = restAdapter.create(RetrofitAPI.class);
 
 
         Callback<List<Question>> cb = new Callback<List<Question>>() {
@@ -99,7 +89,7 @@ public class QuestionListActivity extends Activity  {
                 error.printStackTrace();
             }
         };
-        methods.getQuestionListByCategory(cb);
+        methods.getQuestionListByCategory(2,cb);
 
     }
 

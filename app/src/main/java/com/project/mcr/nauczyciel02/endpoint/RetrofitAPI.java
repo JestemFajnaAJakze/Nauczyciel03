@@ -17,12 +17,16 @@ import retrofit.http.Query;
 /**
  * Created by MCR on 24.11.2016.
  */
-public interface CategoryGET {
+public interface RetrofitAPI {
 
     @GET("/category_get.php")
-    void getBooks(Callback<List<Category>> cb);
+    void getCategoryList(Callback<List<Category>> cb);
 
     @GET("/question_get.php")
-    void getQuestionListByCategory(Callback<List<Question>> cb);
-   // void getQuestionListByCategory(@Query("category_id") int categoryId, Callback<List<Question>> cb);
+    //void getQuestionListByCategory(Callback<List<Question>> cb);
+   void getQuestionListByCategory(@Query("category_id") int categoryId, Callback<List<Question>> cb);
+
+    @GET("/category_add.php")
+        //void getQuestionListByCategory(Callback<List<Question>> cb);
+    void addCategory(@Query("name") String name, Callback<List<Category>> cb);
 }
