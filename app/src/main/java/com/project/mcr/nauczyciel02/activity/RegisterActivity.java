@@ -25,13 +25,23 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 import com.project.mcr.nauczyciel02.app.AppConfig;
 import com.project.mcr.nauczyciel02.app.AppController;
+import com.project.mcr.nauczyciel02.endpoint.RetrofitAPI;
 import com.project.mcr.nauczyciel02.helper.SQLiteHandler;
 import com.project.mcr.nauczyciel02.helper.SessionManager;
+import com.project.mcr.nauczyciel02.model.Category;
+import com.squareup.okhttp.OkHttpClient;
+
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.OkClient;
 
 public class RegisterActivity extends Activity {
     private static final String TAG = RegisterActivity.class.getSimpleName();
@@ -43,6 +53,11 @@ public class RegisterActivity extends Activity {
     private ProgressDialog pDialog;
     private SessionManager session;
     private SQLiteHandler db;
+
+    static final String API_URL = "http://192.168.1.100/android_login_api2";
+    //ListView category_listview;
+    RestAdapter restAdapter;
+
 
     public void onClickLogin (View v){
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -59,7 +74,40 @@ public class RegisterActivity extends Activity {
 
         if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
             //Toast.makeText(getApplicationContext(), "name: "+name+" email: "+email+" password: "+password, Toast.LENGTH_LONG).show();
-            registerUser(name, email, password);
+            //registerUser(name, email, password);
+            OkHttpClient mOkHttpClient = new OkHttpClient();
+            mOkHttpClient.setConnectTimeout(15000, TimeUnit.MILLISECONDS);
+            mOkHttpClient.setReadTimeout(15000, TimeUnit.MILLISECONDS);
+
+            restAdapter = new RestAdapter.Builder()
+                    .setEndpoint(API_URL)
+                    .setClient(new OkClient(mOkHttpClient))
+                    .setLogLevel(RestAdapter.LogLevel.FULL)
+                    .build();
+            RetrofitAPI methods = restAdapter.create(RetrofitAPI.class);
+
+            Callback<List<Category>> cb = new Callback<List<Category>>() {
+
+                @Override
+                public void success(List<Category> categories, retrofit.client.Response response) {
+                /*Toast.makeText(getApplicationContext(),
+                        "Dodano kategorie", Toast.LENGTH_LONG)
+                        .show();*/
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    Toast.makeText(getApplicationContext(),
+                            "Nie udalo sie dodac kategorii", Toast.LENGTH_LONG)
+                            .show();
+                }
+            };
+
+
+            //methods.addCategory(category, cb);
+
+
+
         } else {
             Toast.makeText(getApplicationContext(),
                     "Please enter your details!", Toast.LENGTH_LONG)
