@@ -79,7 +79,7 @@ public class CategoryListActivity extends Activity {
                     }
                 }
                 SimpleAdapter adapter = new SimpleAdapter(getApplication(), bookMapList, R.layout.list_item_category,
-                        new String [] {"category_id", "name"},new int [] {R.id.categoryId, R.id.categoryName});
+                        new String [] {"name"},new int [] { R.id.categoryName});
 
                 category_listview.setAdapter(adapter);
             }
@@ -139,7 +139,7 @@ public class CategoryListActivity extends Activity {
                     }
                 }
                 SimpleAdapter adapter = new SimpleAdapter(getApplication(), categoryMapList, R.layout.list_item_category,
-                        new String [] {"category_id", "name"},new int [] {R.id.categoryId, R.id.categoryName});
+                        new String [] {"name"},new int [] {R.id.categoryName});
 
                 category_listview.setAdapter(adapter);
             }

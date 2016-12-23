@@ -3,6 +3,7 @@ package com.project.mcr.nauczyciel02.endpoint;
 /**
  * Created by MCR on 19.12.2016.
  */
+import com.project.mcr.nauczyciel02.model.Answer;
 import com.project.mcr.nauczyciel02.model.Category;
 import com.project.mcr.nauczyciel02.model.Question;
 import com.project.mcr.nauczyciel02.model.Student;
@@ -31,9 +32,21 @@ public interface RetrofitAPI {
     @GET("/test_get_category_and_class.php")
     void getTestListByCategoryAndClass(@Query("category_id") int categoryId, Callback<List<Question>> cb);
 
+    /////////////////////answer//////////////////////////////////////////////////
+    @GET("/add_answer.php")
+    void addAnswer(@Query("question_id") int question_id, @Query("name") String name, @Query("is_correct") int is_correct, Callback<List<Answer>> cb);
+
 
 
     /////////////////////question//////////////////////////////////////////////////
+
+    @GET("/get_inserted_question_id.php")
+    //void getInsertedQuestionId(@Query("category_id") int categoryId, @Query("name") String name, Callback<List<Question>> cb);
+    void getInsertedQuestionId(Callback<List<Question>> cb);
+
+
+    @GET("/add_question.php")
+    void addQuestion(@Query("category_id") int categoryId, @Query("name") String name, Callback<List<Question>> cb);
 
     @GET("/question_get.php")
     void getQuestionListByCategory(@Query("category_id") int categoryId, Callback<List<Question>> cb);
