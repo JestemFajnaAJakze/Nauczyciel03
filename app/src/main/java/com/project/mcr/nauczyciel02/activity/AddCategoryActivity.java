@@ -48,44 +48,52 @@ public class AddCategoryActivity extends Activity {
 
     public void onClickAddCategory(View v){
         //
+
+
         String category = categoryName.getText().toString().trim();
+        if(category.isEmpty()){
+            Toast.makeText(getApplicationContext(),
+                    "Prosze uzupelnic formularz", Toast.LENGTH_LONG)
+                    .show();
+        }else {
+            OkHttpClient mOkHttpClient = new OkHttpClient();
+            mOkHttpClient.setConnectTimeout(15000, TimeUnit.MILLISECONDS);
+            mOkHttpClient.setReadTimeout(15000, TimeUnit.MILLISECONDS);
 
-        OkHttpClient mOkHttpClient = new OkHttpClient();
-        mOkHttpClient.setConnectTimeout(15000, TimeUnit.MILLISECONDS);
-        mOkHttpClient.setReadTimeout(15000, TimeUnit.MILLISECONDS);
+            restAdapter = new RestAdapter.Builder()
+                    .setEndpoint(API_URL)
+                    .setClient(new OkClient(mOkHttpClient))
+                    .setLogLevel(RestAdapter.LogLevel.FULL)
+                    .build();
+            RetrofitAPI methods = restAdapter.create(RetrofitAPI.class);
 
-        restAdapter = new RestAdapter.Builder()
-                .setEndpoint(API_URL)
-                .setClient(new OkClient(mOkHttpClient))
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .build();
-        RetrofitAPI methods = restAdapter.create(RetrofitAPI.class);
+            Callback<List<Category>> cb = new Callback<List<Category>>() {
 
-        Callback<List<Category>> cb = new Callback<List<Category>>() {
-
-            @Override
-            public void success(List<Category> categories, Response response) {
+                @Override
+                public void success(List<Category> categories, Response response) {
                 /*Toast.makeText(getApplicationContext(),
                         "Dodano kategorie", Toast.LENGTH_LONG)
                         .show();*/
-            }
+                }
 
-            @Override
-            public void failure(RetrofitError error) {
-                Toast.makeText(getApplicationContext(),
-                        "Nie udalo sie dodac kategorii", Toast.LENGTH_LONG)
-                        .show();
-            }
-        };
+                @Override
+                public void failure(RetrofitError error) {
+                    Toast.makeText(getApplicationContext(),
+                            "Nie udalo sie dodac kategorii", Toast.LENGTH_LONG)
+                            .show();
+                }
+            };
 
-        methods.addCategory(category, cb);
+            methods.addCategory(category, cb);
 
 
-        //DODAJE DO BAZY nową kategorię
-        Toast.makeText(getApplicationContext(),
-                "Dodano kategorie "+category, Toast.LENGTH_LONG)
-                .show();
-        Intent intent = new Intent(getApplicationContext(), CategoryListActivity.class);
-        startActivity(intent);
-    }
+            //DODAJE DO BAZY nową kategorię
+            Toast.makeText(getApplicationContext(),
+                    "Formularz zamkniety poprawnie", Toast.LENGTH_LONG)
+                    .show();
+            Intent intent = new Intent(getApplicationContext(), CategoryListActivity.class);
+            startActivity(intent);
+        }
+        }
+
 }

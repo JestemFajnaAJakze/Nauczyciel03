@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,120 +13,147 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project.mcr.nauczyciel02.R;
+import com.project.mcr.nauczyciel02.endpoint.RetrofitAPI;
+import com.project.mcr.nauczyciel02.model.Test;
+import com.squareup.okhttp.OkHttpClient;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.OkClient;
 
 /**
  * Created by MCR on 24.11.2016.
  */
 public class TestListActivity extends Activity {
+
+    static final String API_URL = "http://192.168.1.100/android_login_api2";
+    ListView test_listview;
+    RestAdapter restAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_list);
 
-        ListView testList = (ListView) findViewById(R.id.testList);
+        test_listview = (ListView) findViewById(R.id.test_listview);
+
+        OkHttpClient mOkHttpClient = new OkHttpClient();
+        mOkHttpClient.setConnectTimeout(15000, TimeUnit.MILLISECONDS);
+        mOkHttpClient.setReadTimeout(15000, TimeUnit.MILLISECONDS);
+
+        restAdapter = new RestAdapter.Builder()
+                .setEndpoint(API_URL)
+                .setClient(new OkClient(mOkHttpClient))
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .build();
+        RetrofitAPI methods = restAdapter.create(RetrofitAPI.class);
 
 
-        final LinkedList<Test> tests1 = new LinkedList<Test>();
-        tests1.add(new Test(1,1,"Matematyka 001"));
-        tests1.add(new Test(2,1,"Matematyka 002"));
-        tests1.add(new Test(3,1,"Matematyka 003"));
+        Callback<List<Test>> cb = new Callback<List<Test>>() {
 
-        TestAdapter adapter = new TestAdapter(tests1);
-        testList.setAdapter(adapter);
-
-        testList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "Wybrano test " + tests1.get(position).getName(),
-                        Toast.LENGTH_SHORT).show();
+            public void success(List<Test> tests, retrofit.client.Response response) {
+
+                List<HashMap<String,Object>> testMapList = new ArrayList<>();
+                for(Test t: tests){
+                    HashMap<String, Object> testMap = new HashMap<>();
+
+                    try {
+
+                        testMap.put(t.getClass().getField("test_id").getName(),t.getTest_id());
+                        testMap.put(t.getClass().getField("name").getName(),t.getName());
+
+                        testMapList.add(testMap);
+                    } catch (NoSuchFieldException e) {
+                        e.printStackTrace();
+                    }
+                }
+                SimpleAdapter adapter = new SimpleAdapter(getApplication(), testMapList, R.layout.list_item_test,
+                        new String [] {"name"},new int [] { R.id.testName});
+
+                test_listview.setAdapter(adapter);
             }
-        });
-    }
-
-    private class Test{
-        private int test_Id;
-        private int category_Id;
-        private String name;
 
 
-        public Test(int test_Id, int category_Id, String name) {
-            this.test_Id = test_Id;
-            this.category_Id = category_Id;
-            this.name = name;
-        }
 
-        public int getTest_Id() {
-            return test_Id;
-        }
-
-        public void setTest_Id(int test_Id) {
-            this.test_Id = test_Id;
-        }
-
-        public int getCategory_Id() {
-            return category_Id;
-        }
-
-        public void setCategory_Id(int category_Id) {
-            this.category_Id = category_Id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e("TestListActivity", error.getMessage() +"\n"+ error.getStackTrace());
+                error.printStackTrace();
+            }
+        };
+        methods.getTestsAll(cb);
 
     }
 
-    private class TestAdapter extends BaseAdapter {
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        setContentView(R.layout.activity_test_list);
+
+        test_listview = (ListView) findViewById(R.id.test_listview);
+
+        OkHttpClient mOkHttpClient = new OkHttpClient();
+        mOkHttpClient.setConnectTimeout(15000, TimeUnit.MILLISECONDS);
+        mOkHttpClient.setReadTimeout(15000, TimeUnit.MILLISECONDS);
+
+        restAdapter = new RestAdapter.Builder()
+                .setEndpoint(API_URL)
+                .setClient(new OkClient(mOkHttpClient))
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .build();
+        RetrofitAPI methods = restAdapter.create(RetrofitAPI.class);
 
 
+        Callback<List<Test>> cb = new Callback<List<Test>>() {
 
-        private LinkedList<Test> tests1;
+            @Override
+            public void success(List<Test> tests, retrofit.client.Response response) {
+                //Log.v("BookListActivity", booksString);
+                //TypeToken<List<Book>> token = new TypeToken<List<Book>>() {};
+                //List<Book> books = new Gson().fromJson(booksString, token.getType());
 
-        public TestAdapter(LinkedList<Test> tests1) {
-            this.tests1 = tests1;
-        }
+                List<HashMap<String,Object>> testMapList = new ArrayList<>();
+                for(Test t: tests){
+                    HashMap<String, Object> testMap = new HashMap<>();
 
-        @Override
-        public int getCount() {
-            return tests1.size();
-        }
+                    try {
 
-        @Override
-        public Test getItem(int position) {
-            return tests1.get(position);
-        }
+                        testMap.put(t.getClass().getField("test_id").getName(),t.getTest_id());
+                        testMap.put(t.getClass().getField("name").getName(),t.getName());
 
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
+                        testMapList.add(testMap);
+                    } catch (NoSuchFieldException e) {
+                        e.printStackTrace();
+                    }
+                }
+                SimpleAdapter adapter = new SimpleAdapter(getApplication(), testMapList, R.layout.list_item_test,
+                        new String [] {"name"},new int [] { R.id.testName});
 
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = inflater.inflate(R.layout.list_item_test, parent, false);
+                test_listview.setAdapter(adapter);
             }
 
-            //ImageView TestImage = (ImageView) convertView.findViewById(R.id.Test_image);
-            TextView TestName = (TextView) convertView.findViewById(R.id.testName);
 
 
-            TestName.setText(getItem(position).getName());
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e("TestListActivity", error.getMessage() +"\n"+ error.getStackTrace());
+                error.printStackTrace();
+            }
+        };
+        methods.getTestsAll(cb);
 
-            return convertView;
-        }
     }
 
 

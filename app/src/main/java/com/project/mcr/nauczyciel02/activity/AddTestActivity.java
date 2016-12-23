@@ -32,7 +32,7 @@ public class AddTestActivity extends Activity {
 
     }
 
-    public void onClickAddQuestion(View v){
+    public void onClickAddTest(View v){
         //
         String question = questionNameInput.getText().toString().trim();
         String answerA = asnwerAInput.getText().toString().trim();

@@ -8,6 +8,7 @@ import com.project.mcr.nauczyciel02.model.Category;
 import com.project.mcr.nauczyciel02.model.Question;
 import com.project.mcr.nauczyciel02.model.Student;
 import com.project.mcr.nauczyciel02.model.Teacher;
+import com.project.mcr.nauczyciel02.model.Test;
 
 import java.util.List;
 
@@ -25,8 +26,8 @@ public interface RetrofitAPI {
     /////////////////////test//////////////////////////////////////////////////
 
     //dla nauczyciela lista testow
-    @GET("/test_get.php")
-    void getTestListByCategory(@Query("category_id") int categoryId, Callback<List<Question>> cb);
+    @GET("/get_all_tests.php")
+    void getTestsAll(Callback<List<Test>> cb);
 
     //dla ucznia lista testow
     @GET("/test_get_category_and_class.php")
