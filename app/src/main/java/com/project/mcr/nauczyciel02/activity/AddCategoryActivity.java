@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.project.mcr.nauczyciel02.R;
@@ -37,7 +38,12 @@ public class AddCategoryActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_category);
         categoryName = (EditText)findViewById(R.id.categoryTxt);
+       // ImageButton backButton = (ImageButton) findViewById(R.id.backButton);
 
+    }
+    public void onClickBackButton(View v){
+        Intent intent = new Intent(getApplicationContext(), CategoryListActivity.class);
+        startActivity(intent);
     }
 
     public void onClickAddCategory(View v){

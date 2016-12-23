@@ -133,4 +133,9 @@ public class TestListActivity extends Activity {
         Intent intent = new Intent(getApplicationContext(), AddTestActivity.class);
         startActivity(intent);
     }
+
+    public void onClickBackButton(View v){
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+    }
 }

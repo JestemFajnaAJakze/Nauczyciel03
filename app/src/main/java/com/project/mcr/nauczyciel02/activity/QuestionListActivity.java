@@ -162,5 +162,10 @@ public class QuestionListActivity extends Activity  {
 
     }
 
+    public void onClickBackButton(View v){
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+    }
+
 
 }

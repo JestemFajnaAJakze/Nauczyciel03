@@ -1,6 +1,7 @@
 package com.project.mcr.nauczyciel02.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -43,4 +44,10 @@ public class AddTestActivity extends Activity {
                 "Dodano pytanie:\n Treść: "+question+"\nA: "+answerA+"\nB: "+answerB+"\nC: "+answerC+"\nD: "+answerD, Toast.LENGTH_LONG)
                 .show();
     }
+
+    public void onClickBackButton(View v){
+        Intent intent = new Intent(getApplicationContext(), TestListActivity.class);
+        startActivity(intent);
+    }
+
 }

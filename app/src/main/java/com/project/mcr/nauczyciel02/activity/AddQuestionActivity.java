@@ -337,5 +337,11 @@ public class AddQuestionActivity extends Activity implements AdapterView.OnItemS
                 }
                     break;
         }
-    };
+    }
+
+    public void onClickBackButton(View v){
+        Intent intent = new Intent(getApplicationContext(), QuestionListActivity.class);
+        startActivity(intent);
+    }
+
 }

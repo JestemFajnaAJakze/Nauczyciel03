@@ -157,4 +157,8 @@ public class CategoryListActivity extends Activity {
         Intent intent = new Intent(getApplicationContext(), AddCategoryActivity.class);
         startActivity(intent);
     }
+    public void onClickBackButton(View v){
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+    }
 }

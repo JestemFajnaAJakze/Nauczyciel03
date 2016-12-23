@@ -19,12 +19,35 @@
         android:layout_gravity="center_horizontal"
         android:hint="Nazwa kategorii" />
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Dodaj"
-        android:id="@+id/addCategory"
-        android:layout_gravity="center_horizontal"
-        android:onClick="onClickAddCategory" />
+        android:layout_gravity="center"
+        android:gravity="center" >
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButton3"
+            android:src="@drawable/back_button"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="false"
+            android:padding="0dp"
+            android:background="@android:color/transparent"
+            android:onClick="onClickBackButton"
+            android:layout_marginRight="30dp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButton4"
+            android:src="@drawable/ok_button"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="false"
+            android:padding="0dp"
+            android:background="@android:color/transparent"
+            android:onClick="onClickAddCategory" />
+    </LinearLayout>
 
 </LinearLayout>
