@@ -1,4 +1,4 @@
-package com.project.mcr.nauczyciel02.activity;
+package com.project.mcr.nauczyciel02.activity.question;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SimpleAdapter;
@@ -35,7 +34,7 @@ import retrofit.client.Response;
 /**
  * Created by mikolaj.mocarski on 2016-11-29.
  */
-public class AddQuestionActivity extends Activity implements AdapterView.OnItemSelectedListener {
+public class QuestionAddActivity extends Activity implements AdapterView.OnItemSelectedListener {
 
     private EditText questionNameInput;
     private EditText asnwerAInput;

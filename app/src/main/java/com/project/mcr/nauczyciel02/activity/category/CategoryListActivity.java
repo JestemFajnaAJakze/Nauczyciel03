@@ -1,9 +1,10 @@
-package com.project.mcr.nauczyciel02.activity;
+package com.project.mcr.nauczyciel02.activity.category;
 
 import android.os.Bundle;
 
 import com.project.mcr.nauczyciel02.R;
 
+import com.project.mcr.nauczyciel02.activity.MainActivity;
 import com.project.mcr.nauczyciel02.endpoint.RetrofitAPI;
 
 import java.util.ArrayList;
@@ -154,7 +155,7 @@ public class CategoryListActivity extends Activity {
     }
 
     public void onClickAddCategoryActivity(View v){
-        Intent intent = new Intent(getApplicationContext(), AddCategoryActivity.class);
+        Intent intent = new Intent(getApplicationContext(), CategoryAddActivity.class);
         startActivity(intent);
     }
     public void onClickBackButton(View v){

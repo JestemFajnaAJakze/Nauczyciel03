@@ -4,8 +4,10 @@ import android.os.Bundle;
 
 import com.project.mcr.nauczyciel02.R;
 
+import com.project.mcr.nauczyciel02.activity.category.CategoryListActivity;
+import com.project.mcr.nauczyciel02.activity.question.QuestionListActivity;
+import com.project.mcr.nauczyciel02.activity.test.TestListActivity;
 import com.project.mcr.nauczyciel02.helper.SQLiteHandler;
-import com.project.mcr.nauczyciel02.helper.SQLiteHandlerOLD;
 import com.project.mcr.nauczyciel02.helper.SessionManager;
 import com.project.mcr.nauczyciel02.model.Category;
 
@@ -17,7 +19,6 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {

@@ -1,11 +1,10 @@
-package com.project.mcr.nauczyciel02.activity;
+package com.project.mcr.nauczyciel02.activity.category;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.project.mcr.nauczyciel02.R;
@@ -25,7 +24,7 @@ import retrofit.client.Response;
 /**
  * Created by mikolaj.mocarski on 2016-11-29.
  */
-public class AddCategoryActivity extends Activity {
+public class CategoryAddActivity extends Activity {
 
 
     static final String API_URL = "http://192.168.1.100/android_login_api2";

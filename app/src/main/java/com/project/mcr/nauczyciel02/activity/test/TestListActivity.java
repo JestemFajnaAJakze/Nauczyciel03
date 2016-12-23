@@ -1,30 +1,21 @@
-package com.project.mcr.nauczyciel02.activity;
+package com.project.mcr.nauczyciel02.activity.test;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.project.mcr.nauczyciel02.R;
+import com.project.mcr.nauczyciel02.activity.MainActivity;
 import com.project.mcr.nauczyciel02.endpoint.RetrofitAPI;
 import com.project.mcr.nauczyciel02.model.Test;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -158,7 +149,7 @@ public class TestListActivity extends Activity {
 
 
     public void onClickAddTestActivity(View v){
-        Intent intent = new Intent(getApplicationContext(), AddTestActivity.class);
+        Intent intent = new Intent(getApplicationContext(), TestAddActivity.class);
         startActivity(intent);
     }
 

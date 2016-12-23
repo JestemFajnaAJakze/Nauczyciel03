@@ -1,4 +1,4 @@
-package com.project.mcr.nauczyciel02.activity;
+package com.project.mcr.nauczyciel02.activity.test;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,7 +12,7 @@ import com.project.mcr.nauczyciel02.R;
 /**
  * Created by mikolaj.mocarski on 2016-11-29.
  */
-public class AddTestActivity extends Activity {
+public class TestAddActivity extends Activity {
 
     private EditText questionNameInput;
     private EditText asnwerAInput;

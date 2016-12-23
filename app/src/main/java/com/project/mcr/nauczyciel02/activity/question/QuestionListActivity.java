@@ -1,4 +1,4 @@
-package com.project.mcr.nauczyciel02.activity;
+package com.project.mcr.nauczyciel02.activity.question;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,8 +10,8 @@ import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 
 import com.project.mcr.nauczyciel02.R;
+import com.project.mcr.nauczyciel02.activity.MainActivity;
 import com.project.mcr.nauczyciel02.endpoint.RetrofitAPI;
-import com.project.mcr.nauczyciel02.model.Category;
 import com.project.mcr.nauczyciel02.model.Question;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -97,7 +97,7 @@ public class QuestionListActivity extends Activity  {
     }
 
     public void onClickAddQuestionActivity(View v){
-        Intent intent = new Intent(getApplicationContext(), AddQuestionActivity.class);
+        Intent intent = new Intent(getApplicationContext(), QuestionAddActivity.class);
         startActivity(intent);
     }
 
