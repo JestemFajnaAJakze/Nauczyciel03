@@ -7,19 +7,32 @@ import com.project.mcr.nauczyciel02.R;
 import com.project.mcr.nauczyciel02.activity.category.CategoryListActivity;
 import com.project.mcr.nauczyciel02.activity.question.QuestionListActivity;
 import com.project.mcr.nauczyciel02.activity.test.TestListActivity;
+import com.project.mcr.nauczyciel02.activity.user.LoginActivity;
+import com.project.mcr.nauczyciel02.endpoint.RetrofitAPI;
 import com.project.mcr.nauczyciel02.helper.SQLiteHandler;
 import com.project.mcr.nauczyciel02.helper.SessionManager;
 import com.project.mcr.nauczyciel02.model.Category;
+import com.project.mcr.nauczyciel02.model.Teacher;
+import com.squareup.okhttp.OkHttpClient;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.OkClient;
 
 public class MainActivity extends Activity {
 
@@ -32,6 +45,12 @@ public class MainActivity extends Activity {
 
     private SQLiteHandler db;
     private SessionManager session;
+    static final String API_URL = "http://192.168.1.100/android_login_api2";
+    RestAdapter restAdapter;
+    public Teacher loggedTeacher;
+    private List<Teacher> loggedTeachers;
+
+
 
     LinkedList<Category> categories1;
 
@@ -80,81 +99,59 @@ public class MainActivity extends Activity {
         txtEmail = (TextView) findViewById(R.id.email);
         btnLogout = (Button) findViewById(R.id.btnLogout);
 
+        OkHttpClient mOkHttpClient = new OkHttpClient();
+        mOkHttpClient.setConnectTimeout(15000, TimeUnit.MILLISECONDS);
+        mOkHttpClient.setReadTimeout(15000, TimeUnit.MILLISECONDS);
+
+        restAdapter = new RestAdapter.Builder()
+                .setEndpoint(API_URL)
+                .setClient(new OkClient(mOkHttpClient))
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .build();
+        RetrofitAPI methods = restAdapter.create(RetrofitAPI.class);
 
 
-        final LinkedList<Category> categories1 = new LinkedList<Category>();
-        categories1.add(new Category(1, "Matematyka"));
-        categories1.add(new Category(2, "Przedmioty przyrodnicze"));
-        categories1.add(new Category(3, "J. Polskiiii"));
-
-
-
-
-
-
-        // SqLite database handler
-        db = new SQLiteHandler(getApplicationContext());
-
-        // session manager
-        session = new SessionManager(getApplicationContext());
-
-        if (!session.isLoggedIn()) {
-            //logoutUser();
-        }
-
-        // Fetching user details from sqlite
-        HashMap<String, String> user = db.getUserDetails();
-
-        String name = user.get("name");
-        String email = user.get("email");
-
-        // Displaying the user details on the screen
-        txtName.setText("Nazwa: " + name);
-        txtEmail.setText("Email: " + email);
-
-        // Logout button click event
-        /*btnLogout.setOnClickListener(new View.OnClickListener() {
+        Callback<List<Teacher>> cb = new Callback<List<Teacher>>() {
 
             @Override
-            public void onClick(View v) {
-                logoutUser();
-            }
-        });*/
-        AdapterView.OnItemClickListener itemClickListener2 = new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void success(List<Teacher> loggedTeachers2, retrofit.client.Response response) {
 
-            }
-        };
-        AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
+                List<HashMap<String,Object>> bookMapList = new ArrayList<>();
+                loggedTeachers = new ArrayList<>();
+                for(Teacher t: loggedTeachers2){
+                    HashMap<String, Object> bookmap = new HashMap<>();
+                    try {
 
-            public void onItemClick(AdapterView<?> listView, View v, int position, long id) {
-                if (position == 0) {
-                    Intent intent = new Intent(getApplicationContext(), CategoryListActivity.class);
-                    startActivity(intent);
+                        bookmap.put(t.getClass().getField("teacher_id").getName(),t.getTeacher_id());
+                        bookmap.put(t.getClass().getField("name").getName(),t.getName());
+                        bookmap.put(t.getClass().getField("email").getName(),t.getEmail());
+                        bookmap.put(t.getClass().getField("password").getName(),t.getPassword());
+                        loggedTeacher=t;
+                        loggedTeachers.add(t);
 
 
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
+
+            }
+
+
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e("CategoryListActivity", error.getMessage() +"\n"+ error.getStackTrace());
+                error.printStackTrace();
+                Toast.makeText(getApplicationContext(),
+                        "Bledne dane do logowania!", Toast.LENGTH_LONG)
+                        .show();
             }
         };
-       /* ListView listView = (ListView) findViewById(R.id.list_options);
-        listView.setOnClickListener((View.OnClickListener) itemClickListener2);*/
+        methods.checkTeacher("aa","aaa",cb);
 
-        /**
-         * Logging out the user. Will set isLoggedIn flag to false in shared
-         * preferences Clears the user data from sqlite users table
-         * */
+        //txtName.setText(t.getName());
 
     }
 
-    private void logoutUser() {
-        session.setLogin(false);
-
-        db.deleteUsers();
-
-        // Launching the login activity
-        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(intent);
-        finish();
-    }
 }

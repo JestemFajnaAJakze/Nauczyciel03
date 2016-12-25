@@ -1,4 +1,4 @@
-package com.project.mcr.nauczyciel02.activity;
+package com.project.mcr.nauczyciel02.activity.user;
 
 import android.os.Bundle;
 
@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 
+import com.project.mcr.nauczyciel02.activity.MainActivity;
 import com.project.mcr.nauczyciel02.app.AppConfig;
 import com.project.mcr.nauczyciel02.app.AppController;
 import com.project.mcr.nauczyciel02.endpoint.RetrofitAPI;

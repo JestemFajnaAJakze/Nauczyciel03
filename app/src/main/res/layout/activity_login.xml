@@ -2,7 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:id="@+id/imageView"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/logo" />
 
     <EditText
         android:layout_width="match_parent"
@@ -18,19 +26,36 @@
         android:layout_gravity="center_horizontal"
         android:hint="Hasło" />
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Zaloguj"
-        android:id="@+id/btnLogin"
         android:layout_gravity="center_horizontal"
-        android:onClick="onClickLogin" />
+        android:gravity="center"
+        android:weightSum="1"
+        android:layout_weight="1" >
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Zarejestruj"
-        android:id="@+id/btnLinkToRegisterScreen"
-        android:layout_gravity="center_horizontal"
-        android:onClick="onClickRegister" />
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/imageButton16"
+            android:layout_gravity="center_horizontal"
+            android:onClick="onClickRegister"
+            android:src="@drawable/register_user"
+            android:scaleType="fitXY"
+            android:background="@android:color/transparent"
+            android:layout_marginRight="20dp" />
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/imageButton15"
+            android:layout_gravity="center_horizontal"
+            android:onClick="onClickLogin"
+            android:src="@drawable/ok_button"
+            android:scaleType="fitXY"
+            android:background="@android:color/transparent"
+            android:layout_marginLeft="20dp" />
+
+    </LinearLayout>
 </LinearLayout>

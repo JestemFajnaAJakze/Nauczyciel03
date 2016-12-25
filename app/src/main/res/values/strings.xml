@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Nauczyciel02</string>
+    <string name="app_name">Nauczyciel</string>
     <string-array name="options">
         <item>Zarzadzanie kategoriami</item>
         <item>Zarzadzanie pytaniami</item>

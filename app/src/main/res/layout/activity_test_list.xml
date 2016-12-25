@@ -16,7 +16,6 @@
         android:id="@+id/test_listview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:entries="@array/options"
         android:layout_weight="20"></ListView>
 
     <LinearLayout

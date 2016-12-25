@@ -36,14 +36,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".activity.user.LoginActivity"
 
             android:label="Login" />
         <activity
             android:name=".activity.category.CategoryListActivity"
             android:label="ListOfCategories" />
         <activity
-            android:name=".activity.RegisterActivity"
+            android:name=".activity.user.RegisterActivity"
 
             android:label="Registration" />
         <activity
@@ -52,6 +52,14 @@
             android:label="Registration" />
         <activity
             android:name=".activity.test.TestListActivity"
+
+            android:label="Registration" />
+        <activity
+            android:name=".activity.test.TestActivity"
+
+            android:label="Registration" />
+        <activity
+            android:name=".activity.question.QuestionActivity"
 
             android:label="Registration" />
         <activity
