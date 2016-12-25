@@ -85,7 +85,7 @@ public interface RetrofitAPI {
 
     //czy wolny email
     @GET("/is_teacher_exist.php")
-    void isTeacherExist(@Query("email") String email, Callback<List<Student>> cb);
+    void isTeacherExist(@Query("email") String email, Callback<List<Teacher>> cb);
 
     //dodaj jak mozna
     @GET("/add_teacher.php")

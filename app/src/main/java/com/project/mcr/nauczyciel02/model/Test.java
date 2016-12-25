@@ -7,12 +7,12 @@ public class Test {
 
 
 
-    public int test_id;
-    public int category_id;
-    public String name;
+    private int test_id;
+    private int category_id;
+    private String name;
 
-    public String test_name;
-    public String category_name;
+    private String test_name;
+    private String category_name;
 
     public String getTest_name() {
         return test_name;

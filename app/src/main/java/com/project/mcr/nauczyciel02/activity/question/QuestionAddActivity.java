@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -53,6 +54,8 @@ public class QuestionAddActivity extends Activity implements AdapterView.OnItemS
     private RadioButton radioButton4;
     private RadioGroup radioGroup;
     private int correctAnswer;
+    private ArrayList<Integer> categoryIdList;
+    private ArrayList<String> categoryNameList;
 
     static final String API_URL = "http://192.168.1.100/android_login_api2";
     RestAdapter restAdapter;
@@ -145,30 +148,17 @@ public class QuestionAddActivity extends Activity implements AdapterView.OnItemS
 
             @Override
             public void success(List<Category> categories, retrofit.client.Response response) {
-                //Log.v("BookListActivity", booksString);
-                //TypeToken<List<Book>> token = new TypeToken<List<Book>>() {};
-                //List<Book> books = new Gson().fromJson(booksString, token.getType());
 
-                categoryDropList = new ArrayList<>();
-                //currentCategory = new Category(1,"");
-                categoriesFinalList = new ArrayList<>();
+                categoryIdList = new ArrayList<>();
+                categoryNameList = new ArrayList<>();
                 for(Category c: categories){
-                    categoryMap = new HashMap<>();
 
-                    try {
 
-                        categoryMap.put(c.getClass().getField("category_id").getName(),c.getCategory_id());
-                        categoryMap.put(c.getClass().getField("name").getName(),c.getName());
+                    categoryIdList.add(c.getCategory_id());
+                    categoryNameList.add(c.getName());
 
-                        categoryDropList.add(categoryMap);
-                        //currentCategory.setCategory_id(c.getCategory_id());
-                        categoriesFinalList.add(c);
-                    } catch (NoSuchFieldException e) {
-                        e.printStackTrace();
-                    }
                 }
-                SimpleAdapter adapter = new SimpleAdapter(getApplication(), categoryDropList, R.layout.list_item_category,
-                        new String [] {"name"},new int [] {R.id.categoryName});
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, categoryNameList);
 
                 spinner.setAdapter(adapter);
             }
@@ -260,9 +250,6 @@ public class QuestionAddActivity extends Activity implements AdapterView.OnItemS
                     @Override
                     public void success(List<Answer> questions, Response response) {
 
-
-
-
                     }
 
                     @Override
@@ -292,16 +279,9 @@ public class QuestionAddActivity extends Activity implements AdapterView.OnItemS
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        //choosenCategoryId =  categ
-        //HashMap<String, Object> item = (HashMap<String, Object>) parent.getItemAtPosition(position);
-       // questionNameInput.setText(Integer.toString(categoriesFinalList.get(parent.getSelectedItemPosition()).getCategory_id()));
-        //questionNameInput.setText((Integer) item.get("category_id"));
-        //categoryDropList.get(position).containsValue(item);
-        //questionNameInput.setText(categoriesFinalList.get(position).getName());
 
         //zapisujemy id kategorii pytania
-        choosenCategoryId = categoriesFinalList.get(position).getCategory_id();
-        //questionNameInput.setText(Integer.toString(choosenCategoryId));
+        choosenCategoryId = categoryIdList.get(position);
     }
 
     @Override

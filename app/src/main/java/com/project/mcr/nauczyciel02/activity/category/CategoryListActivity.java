@@ -16,6 +16,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -36,6 +37,8 @@ public class CategoryListActivity extends Activity {
     static final String API_URL = "http://192.168.1.100/android_login_api2";
     ListView category_listview;
     RestAdapter restAdapter;
+    ArrayList<String> categoryNameList;
+    ArrayList<Integer> categoryIdsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,26 +64,16 @@ public class CategoryListActivity extends Activity {
 
             @Override
             public void success(List<Category> categories, retrofit.client.Response response) {
-                //Log.v("BookListActivity", booksString);
-                //TypeToken<List<Book>> token = new TypeToken<List<Book>>() {};
-                //List<Book> books = new Gson().fromJson(booksString, token.getType());
 
-                List<HashMap<String,Object>> bookMapList = new ArrayList<>();
+                categoryNameList = new ArrayList<>();
+                categoryIdsList = new ArrayList<>();
                 for(Category c: categories){
-                    HashMap<String, Object> bookmap = new HashMap<>();
 
-                    try {
+                    categoryNameList.add(c.getName());
+                    categoryIdsList.add(c.getCategory_id());
 
-                        bookmap.put(c.getClass().getField("category_id").getName(),c.getCategory_id());
-                        bookmap.put(c.getClass().getField("name").getName(),c.getName());
-
-                        bookMapList.add(bookmap);
-                    } catch (NoSuchFieldException e) {
-                        e.printStackTrace();
-                    }
                 }
-                SimpleAdapter adapter = new SimpleAdapter(getApplication(), bookMapList, R.layout.list_item_category,
-                        new String [] {"name"},new int [] { R.id.categoryName});
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, categoryNameList);
 
                 category_listview.setAdapter(adapter);
             }
@@ -125,25 +118,19 @@ public class CategoryListActivity extends Activity {
                 //TypeToken<List<Book>> token = new TypeToken<List<Book>>() {};
                 //List<Book> books = new Gson().fromJson(booksString, token.getType());
 
-                List<HashMap<String,Object>> categoryMapList = new ArrayList<>();
-                for(Category c: categories){ 
-                    HashMap<String, Object> categoryMap = new HashMap<>();
+                for(Category c: categories){
 
-                    try {
+                    categoryNameList.add(c.getName());
+                    categoryIdsList.add(c.getCategory_id());
 
-                        categoryMap.put(c.getClass().getField("category_id").getName(),c.getCategory_id());
-                        categoryMap.put(c.getClass().getField("name").getName(),c.getName());
-
-                        categoryMapList.add(categoryMap);
-                    } catch (NoSuchFieldException e) {
-                        e.printStackTrace();
-                    }
                 }
-                SimpleAdapter adapter = new SimpleAdapter(getApplication(), categoryMapList, R.layout.list_item_category,
-                        new String [] {"name"},new int [] {R.id.categoryName});
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, categoryNameList);
 
                 category_listview.setAdapter(adapter);
             }
+
+
+
             @Override
             public void failure(RetrofitError error) {
                 Log.e("CategoryListActivity", error.getMessage() +"\n"+ error.getStackTrace());
@@ -151,6 +138,7 @@ public class CategoryListActivity extends Activity {
             }
         };
         methods.getCategoryList(cb);
+
 
     }
 

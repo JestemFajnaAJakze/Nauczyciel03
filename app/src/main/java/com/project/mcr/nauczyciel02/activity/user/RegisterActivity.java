@@ -24,6 +24,7 @@ import com.android.volley.toolbox.StringRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,12 +32,14 @@ import java.util.concurrent.TimeUnit;
 
 
 import com.project.mcr.nauczyciel02.activity.MainActivity;
+import com.project.mcr.nauczyciel02.activity.category.CategoryListActivity;
 import com.project.mcr.nauczyciel02.app.AppConfig;
 import com.project.mcr.nauczyciel02.app.AppController;
 import com.project.mcr.nauczyciel02.endpoint.RetrofitAPI;
 import com.project.mcr.nauczyciel02.helper.SQLiteHandler;
 import com.project.mcr.nauczyciel02.helper.SessionManager;
 import com.project.mcr.nauczyciel02.model.Category;
+import com.project.mcr.nauczyciel02.model.Teacher;
 import com.squareup.okhttp.OkHttpClient;
 
 import retrofit.Callback;
@@ -45,37 +48,32 @@ import retrofit.RetrofitError;
 import retrofit.client.OkClient;
 
 public class RegisterActivity extends Activity {
-    private static final String TAG = RegisterActivity.class.getSimpleName();
-    private Button btnRegister;
-    private Button btnLinkToLogin;
+
     private EditText inputFullName;
     private EditText inputEmail;
     private EditText inputPassword;
-    private ProgressDialog pDialog;
-    private SessionManager session;
-    private SQLiteHandler db;
+    String name, email, password;
+    private Teacher teacher;
+    private Boolean isTeacherExist;
 
     static final String API_URL = "http://192.168.1.100/android_login_api2";
-    //ListView category_listview;
-    RestAdapter restAdapter;
+    RestAdapter restAdapter, restAdapter2;
 
 
-    public void onClickLogin (View v){
+    public void onClickLogin(View v) {
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
-    };
+    }
 
-    public void onClickRegister (View v){
-        String name = inputFullName.getText().toString().trim();
-        String email = inputEmail.getText().toString().trim();
-        String password = inputPassword.getText().toString().trim();
 
-        //Toast.makeText(getApplicationContext(), "name: "+name+" email: "+email+" password: "+password, Toast.LENGTH_LONG).show();
+    public void onClickRegister(View v) {
+        name = inputFullName.getText().toString().trim();
+        email = inputEmail.getText().toString().trim();
+        password = inputPassword.getText().toString().trim();
 
 
         if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
-            //Toast.makeText(getApplicationContext(), "name: "+name+" email: "+email+" password: "+password, Toast.LENGTH_LONG).show();
-            //registerUser(name, email, password);
+
             OkHttpClient mOkHttpClient = new OkHttpClient();
             mOkHttpClient.setConnectTimeout(15000, TimeUnit.MILLISECONDS);
             mOkHttpClient.setReadTimeout(15000, TimeUnit.MILLISECONDS);
@@ -87,34 +85,93 @@ public class RegisterActivity extends Activity {
                     .build();
             RetrofitAPI methods = restAdapter.create(RetrofitAPI.class);
 
-            Callback<List<Category>> cb = new Callback<List<Category>>() {
+            Callback<List<Teacher>> cb = new Callback<List<Teacher>>() {
 
                 @Override
-                public void success(List<Category> categories, retrofit.client.Response response) {
-                /*Toast.makeText(getApplicationContext(),
-                        "Dodano kategorie", Toast.LENGTH_LONG)
-                        .show();*/
+                public void success(List<Teacher> teachers, retrofit.client.Response response) {
+
+
+                  //  try {
+                        for (Teacher t : teachers) {
+
+
+                            isTeacherExist = true;
+
+
+                        }
+
+                        if(isTeacherExist){
+                            Toast.makeText(getApplicationContext(),
+                                    "Ten adres email jest juz zajety", Toast.LENGTH_SHORT)
+                                    .show();
+
+                        }else {
+                        }
+
+
+
+
+
+                    //}
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
-                    Toast.makeText(getApplicationContext(),
-                            "Nie udalo sie dodac kategorii", Toast.LENGTH_LONG)
-                            .show();
+
+                    OkHttpClient mOkHttpClient2 = new OkHttpClient();
+                    mOkHttpClient2.setConnectTimeout(15000, TimeUnit.MILLISECONDS);
+                    mOkHttpClient2.setReadTimeout(15000, TimeUnit.MILLISECONDS);
+
+                    restAdapter2 = new RestAdapter.Builder()
+                            .setEndpoint(API_URL)
+                            .setClient(new OkClient(mOkHttpClient2))
+                            .setLogLevel(RestAdapter.LogLevel.FULL)
+                            .build();
+                    RetrofitAPI methods2 = restAdapter2.create(RetrofitAPI.class);
+
+                    Callback<List<Teacher>> cb2 = new Callback<List<Teacher>>() {
+
+                        @Override
+                        public void success(List<Teacher> teachers2, retrofit.client.Response response) {
+                            //try {
+
+
+                            //}
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+
+                            Toast.makeText(getApplicationContext(),
+                                    "Formularz zamkniety poprawnie", Toast.LENGTH_SHORT)
+                                    .show();
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                            startActivity(intent);
+                            // } catch (Exception e) {
+/*
+                            Toast.makeText(getApplicationContext(),
+                                    "Nie udalo sie dodac uzytkownika", Toast.LENGTH_SHORT)
+                                    .show();*/
+
+                        }
+                    };
+
+                    methods2.addTeacher(email, password, name, cb2);
+
                 }
             };
 
-
-            //methods.addCategory(category, cb);
-
+            methods.isTeacherExist(email, cb);
 
 
         } else {
             Toast.makeText(getApplicationContext(),
-                    "Please enter your details!", Toast.LENGTH_LONG)
+                    "Uzupelnij dane formularza", Toast.LENGTH_LONG)
                     .show();
         }
-    };
+    }
+
+    ;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -124,155 +181,9 @@ public class RegisterActivity extends Activity {
         inputFullName = (EditText) findViewById(R.id.name);
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
-        btnRegister = (Button) findViewById(R.id.btnRegister);
-        btnLinkToLogin = (Button) findViewById(R.id.btnLinkToLoginScreen);
-
-        // Progress dialog
-        pDialog = new ProgressDialog(this);
-        pDialog.setCancelable(false);
-
-        // Session manager
-        session = new SessionManager(getApplicationContext());
-
-        // SQLite database handler
-        db = new SQLiteHandler(getApplicationContext());
-
-        // Check if user is already logged in or not
-        if (session.isLoggedIn()) {
-            // User is already logged in. Take him to main activity
-            Intent intent = new Intent(RegisterActivity.this,
-                    MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
-    }
-/*
-
-        // Register Button Click event
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                String name = inputFullName.getText().toString().trim();
-                String email = inputEmail.getText().toString().trim();
-                String password = inputPassword.getText().toString().trim();
-
-                if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
-                    registerUser(name, email, password);
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Please enter your details!", Toast.LENGTH_LONG)
-                            .show();
-                }
-            }
-        });
-
-
-
-        // Link to Login Screen
-        btnLinkToLogin.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),
-                        LoginActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
+        teacher = new Teacher();
+        isTeacherExist = false;
 
     }
-*/
 
-    /**
-     * Function to store user in MySQL database will post params(tag, name,
-     * email, password) to register url
-     * */
-    private void registerUser(final String name, final String email,
-                              final String password) {
-        // Tag used to cancel the request
-        String tag_string_req = "req_register";
-
-        pDialog.setMessage("Registering ...");
-        showDialog();
-
-        StringRequest strReq = new StringRequest(Method.POST,
-                AppConfig.URL_REGISTER, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-                Log.d(TAG, "Register Response: " + response.toString());
-                hideDialog();
-
-                try {
-                    JSONObject jObj = new JSONObject(response);
-                    boolean error = jObj.getBoolean("error");
-                    if (!error) {
-                        // User successfully stored in MySQL
-                        // Now store the user in sqlite
-                        //String uid = jObj.getString("uid");
-
-                        JSONObject users = jObj.getJSONObject("users");
-                        String name = users.getString("name");
-                        String email = users.getString("email");
-                        String password = users.getString("password");
-
-                        // Inserting row in users table
-                        //db.addUser(name, email, password);
-                        Toast.makeText(getApplicationContext(), "User name: "+name, Toast.LENGTH_LONG).show();
-                       // Toast.makeText(getApplicationContext(), "User successfully registered. Try login now!", Toast.LENGTH_LONG).show();
-
-                        // Launch login activity
-                        Intent intent = new Intent(
-                                RegisterActivity.this,
-                                LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                    } else {
-
-                        // Error occurred in registration. Get the error
-                        // message
-                        String errorMsg = jObj.getString("error_msg");
-                        Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_LONG).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Registration Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
-                hideDialog();
-            }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                // Posting params to register url
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("name", name);
-                params.put("email", email);
-                params.put("password", password);
-
-                return params;
-            }
-
-        };
-
-        // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
-    }
-
-    private void showDialog() {
-        if (!pDialog.isShowing())
-            pDialog.show();
-    }
-
-    private void hideDialog() {
-        if (pDialog.isShowing())
-            pDialog.dismiss();
-    }
 }

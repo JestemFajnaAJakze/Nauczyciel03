@@ -49,12 +49,10 @@ public class MainActivity extends Activity {
     RestAdapter restAdapter;
     public Teacher loggedTeacher;
     private List<Teacher> loggedTeachers;
-
+    private String teacherName, teacherEmail;
 
 
     LinkedList<Category> categories1;
-
-
 
 
     public void onClickCategory(View v) {
@@ -99,58 +97,12 @@ public class MainActivity extends Activity {
         txtEmail = (TextView) findViewById(R.id.email);
         btnLogout = (Button) findViewById(R.id.btnLogout);
 
-        OkHttpClient mOkHttpClient = new OkHttpClient();
-        mOkHttpClient.setConnectTimeout(15000, TimeUnit.MILLISECONDS);
-        mOkHttpClient.setReadTimeout(15000, TimeUnit.MILLISECONDS);
+        teacherName = getIntent().getStringExtra("teacherName");
+        teacherEmail = getIntent().getStringExtra("teacherEmail");
 
-        restAdapter = new RestAdapter.Builder()
-                .setEndpoint(API_URL)
-                .setClient(new OkClient(mOkHttpClient))
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .build();
-        RetrofitAPI methods = restAdapter.create(RetrofitAPI.class);
+        txtName.setText("Nazwa uzytkownika: "+teacherName);
+        txtEmail.setText("Email: "+teacherEmail);
 
-
-        Callback<List<Teacher>> cb = new Callback<List<Teacher>>() {
-
-            @Override
-            public void success(List<Teacher> loggedTeachers2, retrofit.client.Response response) {
-
-                List<HashMap<String,Object>> bookMapList = new ArrayList<>();
-                loggedTeachers = new ArrayList<>();
-                for(Teacher t: loggedTeachers2){
-                    HashMap<String, Object> bookmap = new HashMap<>();
-                    try {
-
-                        bookmap.put(t.getClass().getField("teacher_id").getName(),t.getTeacher_id());
-                        bookmap.put(t.getClass().getField("name").getName(),t.getName());
-                        bookmap.put(t.getClass().getField("email").getName(),t.getEmail());
-                        bookmap.put(t.getClass().getField("password").getName(),t.getPassword());
-                        loggedTeacher=t;
-                        loggedTeachers.add(t);
-
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }
-
-
-
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e("CategoryListActivity", error.getMessage() +"\n"+ error.getStackTrace());
-                error.printStackTrace();
-                Toast.makeText(getApplicationContext(),
-                        "Bledne dane do logowania!", Toast.LENGTH_LONG)
-                        .show();
-            }
-        };
-        methods.checkTeacher("aa","aaa",cb);
-
-        //txtName.setText(t.getName());
 
     }
 

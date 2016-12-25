@@ -5,10 +5,10 @@ package com.project.mcr.nauczyciel02.model;
  */
 public class Answer {
 
-    public int answer_id;
-    public int question_id;
-    public String name;
-    public int is_correct;
+    private int answer_id;
+    private int question_id;
+    private String name;
+    private int is_correct;
 
     public int getAnswer_id() {
         return answer_id;

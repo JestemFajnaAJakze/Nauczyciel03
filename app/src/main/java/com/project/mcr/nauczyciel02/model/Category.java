@@ -5,8 +5,8 @@ package com.project.mcr.nauczyciel02.model;
  */
 public class Category {
 
-    public int category_id;
-    public String name;
+    private int category_id;
+    private String name;
 
     public Category(int category_id, String name) {
         this.category_id = category_id;

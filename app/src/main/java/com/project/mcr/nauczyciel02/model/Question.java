@@ -5,8 +5,8 @@ package com.project.mcr.nauczyciel02.model;
  */
 public class Question {
 
-    public int question_id;
-    public String name;
+    private int question_id;
+    private String name;
 
 
     public int getQuestion_id() {

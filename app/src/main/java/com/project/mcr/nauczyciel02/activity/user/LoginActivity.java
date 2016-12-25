@@ -46,9 +46,9 @@ public class LoginActivity extends Activity {
     Boolean isUserCorrect = false;
     static final String API_URL = "http://192.168.1.100/android_login_api2";
     RestAdapter restAdapter;
-    public Teacher loggedTeacher;
+    private Teacher loggedTeacher;
 
-    public void onClickLogin (View v){
+    public void onClickLogin(View v) {
 
         String email = inputEmail.getText().toString().trim();
         String password = inputPassword.getText().toString().trim();
@@ -73,65 +73,71 @@ public class LoginActivity extends Activity {
             Callback<List<Teacher>> cb = new Callback<List<Teacher>>() {
 
                 @Override
-                public void success(List<Teacher> loggedTeachers2, retrofit.client.Response response) {
+                public void success(List<Teacher> teachers, retrofit.client.Response response) {
 
-                    List<HashMap<String,Object>> bookMapList = new ArrayList<>();
-                    loggedTeachers = new ArrayList<>();
-                    for(Teacher t: loggedTeachers2){
-                        HashMap<String, Object> bookmap = new HashMap<>();
-                        try {
+                    try{
+                        for (Teacher t : teachers) {
 
-                            bookmap.put(t.getClass().getField("teacher_id").getName(),t.getTeacher_id());
-                            bookmap.put(t.getClass().getField("name").getName(),t.getName());
-                            bookmap.put(t.getClass().getField("email").getName(),t.getEmail());
-                            bookmap.put(t.getClass().getField("password").getName(),t.getPassword());
-                            loggedTeacher=t;
-                            loggedTeachers.add(t);
-                            isUserCorrect = true;
 
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                            loggedTeacher.setName(t.getName());
+                            loggedTeacher.setPassword(t.getPassword());
+                            loggedTeacher.setEmail(t.getEmail());
+
+                            if (loggedTeacher.getEmail().equals(null)) {
+                                Toast.makeText(getApplicationContext(),
+                                        "Bledne dane do logowania!", Toast.LENGTH_SHORT)
+                                        .show();
+                            } else {
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                intent.putExtra("teacherName", loggedTeacher.getName());
+                                intent.putExtra("teacherEmail", loggedTeacher.getEmail());
+                                startActivity(intent);
+                                Toast.makeText(getApplicationContext(),
+                                        "Witaj " + loggedTeacher.getName() + "!", Toast.LENGTH_LONG)
+                                        .show();
+
+
+                            }
+
+
                         }
                     }
+                    catch (Exception e){
+
+                    }
+
+
+
 
                 }
-
 
 
                 @Override
                 public void failure(RetrofitError error) {
-                    Log.e("CategoryListActivity", error.getMessage() +"\n"+ error.getStackTrace());
+                    Log.e("CategoryListActivity", error.getMessage() + "\n" + error.getStackTrace());
                     error.printStackTrace();
-                    isUserCorrect=false;
                     Toast.makeText(getApplicationContext(),
-                            "Bledne dane do logowania!", Toast.LENGTH_LONG)
+                            "Bledne dane do logowania!", Toast.LENGTH_SHORT)
                             .show();
                 }
             };
-            methods.checkTeacher(email,password,cb);
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
-            /*Toast.makeText(getApplicationContext(),
-                    "Witaj "+loggedTeachers.get(0).getName()+"!", Toast.LENGTH_LONG)
-                    .show();*/
-            //checkLogin(email, password);
+            methods.checkTeacher(email, password, cb);
 
         } else {
             Toast.makeText(getApplicationContext(),
                     "Prosze uzupelnic dane do logowania!", Toast.LENGTH_LONG)
                     .show();
         }
+
     }
 
 
-
-
-
-
-    public void onClickRegister (View v){
+    public void onClickRegister(View v) {
         Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
         startActivity(intent);
-    };
+    }
+
+    ;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -140,10 +146,7 @@ public class LoginActivity extends Activity {
 
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
-        /*btnLogin = (Button) findViewById(R.id.btnLogin);
-        btnLinkToRegister = (Button) findViewById(R.id.btnLinkToRegisterScreen);*/
-
-
+        loggedTeacher = new Teacher();
 
 
 

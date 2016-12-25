@@ -26,9 +26,7 @@ import retrofit.client.Response;
  */
 public class CategoryAddActivity extends Activity {
 
-
     static final String API_URL = "http://192.168.1.100/android_login_api2";
-    //ListView category_listview;
     RestAdapter restAdapter;
     private EditText categoryName;
 
@@ -37,7 +35,6 @@ public class CategoryAddActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_category);
         categoryName = (EditText)findViewById(R.id.categoryTxt);
-       // ImageButton backButton = (ImageButton) findViewById(R.id.backButton);
 
     }
     public void onClickBackButton(View v){
@@ -70,25 +67,21 @@ public class CategoryAddActivity extends Activity {
 
                 @Override
                 public void success(List<Category> categories, Response response) {
-                /*Toast.makeText(getApplicationContext(),
-                        "Dodano kategorie", Toast.LENGTH_LONG)
-                        .show();*/
+
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
                     Toast.makeText(getApplicationContext(),
-                            "Nie udalo sie dodac kategorii", Toast.LENGTH_LONG)
+                            "Nie udalo sie dodac kategorii", Toast.LENGTH_SHORT)
                             .show();
                 }
             };
 
             methods.addCategory(category, cb);
 
-
-            //DODAJE DO BAZY nową kategorię
             Toast.makeText(getApplicationContext(),
-                    "Formularz zamkniety poprawnie", Toast.LENGTH_LONG)
+                    "Formularz zamkniety poprawnie", Toast.LENGTH_SHORT)
                     .show();
             Intent intent = new Intent(getApplicationContext(), CategoryListActivity.class);
             startActivity(intent);

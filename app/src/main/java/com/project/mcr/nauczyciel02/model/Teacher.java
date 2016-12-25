@@ -5,10 +5,10 @@ package com.project.mcr.nauczyciel02.model;
  */
 public class Teacher {
 
-    public int teacher_id;
-    public String name;
-    public String email;
-    public String password;
+    private int teacher_id;
+    private String name;
+    private String email;
+    private String password;
 
     public String getName() {
         return name;

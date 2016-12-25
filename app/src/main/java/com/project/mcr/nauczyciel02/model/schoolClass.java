@@ -4,8 +4,8 @@ package com.project.mcr.nauczyciel02.model;
  * Created by MCR on 23.12.2016.
  */
 public class SchoolClass {
-    public int schoolclass_id;
-    public String name;
+    private int schoolclass_id;
+    private String name;
 
     public String getName() {
         return name;

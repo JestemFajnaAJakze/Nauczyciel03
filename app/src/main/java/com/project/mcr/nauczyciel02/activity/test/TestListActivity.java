@@ -2,12 +2,16 @@ package com.project.mcr.nauczyciel02.activity.test;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project.mcr.nauczyciel02.R;
@@ -36,7 +40,10 @@ public class TestListActivity extends Activity implements AdapterView.OnItemClic
     RestAdapter restAdapter;
     List<HashMap<String,Object>> testMapList;
     HashMap<String, Object> testMap;
-    private List<Test> testsFinalList;
+    private ArrayList<Test> testsFinalList;
+    private ArrayList<String>testsFinalListNames;
+    private ArrayList<Integer>testsFinalListIds;
+    private Test test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +70,10 @@ public class TestListActivity extends Activity implements AdapterView.OnItemClic
             @Override
             public void success(List<Test> tests, retrofit.client.Response response) {
 
-                testsFinalList = new ArrayList<>();
-                Test test = new Test();
+                testsFinalList = new ArrayList<Test>();
+                testsFinalListNames = new ArrayList<>();
+                testsFinalListIds = new ArrayList<>();
+                 //test = new Test();
 
                 List<HashMap<String,Object>> testMapList = new ArrayList<>();
                 for(Test t: tests){
@@ -72,27 +81,40 @@ public class TestListActivity extends Activity implements AdapterView.OnItemClic
 
                     try {
 
-                        testMap.put(t.getClass().getField("test_id").getName(),t.getTest_id());
-                        testMap.put(t.getClass().getField("name").getName(),t.getName());
+                       /* testMap.put(t.getClass().getField("test_id").getName(),t.getTest_id());
+                        testMap.put(t.getClass().getField("name").getName(),t.getName());*/
+//                        test.setTest_id(t.getTest_id());
+//                        test.setTest_name(t.getTest_name());
+//                        test.setCategory_name(t.getCategory_name());
+//                        test.setCategory_id(t.getCategory_id());
+
+                        testsFinalListNames.add(t.getName());
+                        testsFinalListIds.add(t.getTest_id());
+                        testsFinalList.add(t);
+
                         /*test.setTest_id(t.getTest_id());
                         test.setTest_name(t.getTest_name());
                         test.setCategory_name(t.getCategory_name());
-                        test.setCategory_id(t.getCategory_id());*/
-
-                        test.setTest_id(t.getTest_id());
-                        test.setTest_name(t.getTest_name());
-                        test.setCategory_name(t.getCategory_name());
                         test.setCategory_id(t.getCategory_id());
+*/
 
-
-                        testMapList.add(testMap);
-                        testsFinalList.add(test);
-                    } catch (NoSuchFieldException e) {
+                        //testMapList.add(testMap);
+                        //testsFinalList.add(test);
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-                SimpleAdapter adapter = new SimpleAdapter(getApplication(), testMapList, R.layout.list_item_test,
-                        new String [] {"name"},new int [] { R.id.testName});
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, testsFinalListNames);//{
+                    /*@Override
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        View view = super.getView(position, convertView, parent);
+                        TextView text = (TextView) view.findViewById(R.id.testName);
+                        text.setTextColor(Color.BLUE);
+                        return view;
+                    }
+                };;*/
+                /*SimpleAdapter adapter = new SimpleAdapter(getApplication(), testsFinalList, R.layout.list_item_test,
+                        new String [] {"name"},new int [] { R.id.testName});*/
 
                 test_listview.setAdapter(adapter);
             }
@@ -115,6 +137,7 @@ public class TestListActivity extends Activity implements AdapterView.OnItemClic
         setContentView(R.layout.activity_test_list);
 
         test_listview = (ListView) findViewById(R.id.test_listview);
+        test_listview.setOnItemClickListener(this);
 
         OkHttpClient mOkHttpClient = new OkHttpClient();
         mOkHttpClient.setConnectTimeout(15000, TimeUnit.MILLISECONDS);
@@ -132,9 +155,11 @@ public class TestListActivity extends Activity implements AdapterView.OnItemClic
 
             @Override
             public void success(List<Test> tests, retrofit.client.Response response) {
-                //Log.v("BookListActivity", booksString);
-                //TypeToken<List<Book>> token = new TypeToken<List<Book>>() {};
-                //List<Book> books = new Gson().fromJson(booksString, token.getType());
+
+                testsFinalList = new ArrayList<Test>();
+                testsFinalListNames = new ArrayList<>();
+                testsFinalListIds = new ArrayList<>();
+                //test = new Test();
 
                 List<HashMap<String,Object>> testMapList = new ArrayList<>();
                 for(Test t: tests){
@@ -142,17 +167,38 @@ public class TestListActivity extends Activity implements AdapterView.OnItemClic
 
                     try {
 
-                        testMap.put(t.getClass().getField("test_id").getName(),t.getTest_id());
-                        testMap.put(t.getClass().getField("name").getName(),t.getName());
+                       /* testMap.put(t.getClass().getField("test_id").getName(),t.getTest_id());
+                        testMap.put(t.getClass().getField("name").getName(),t.getName());*/
+//                        test.setTest_id(t.getTest_id());
+//                        test.setTest_name(t.getTest_name());
+//                        test.setCategory_name(t.getCategory_name());
+//                        test.setCategory_id(t.getCategory_id());
 
-                        testMapList.add(testMap);
-                    } catch (NoSuchFieldException e) {
+                        testsFinalListNames.add(t.getName());
+                        testsFinalListIds.add(t.getTest_id());
+                        testsFinalList.add(t);
+
+                        /*test.setTest_id(t.getTest_id());
+                        test.setTest_name(t.getTest_name());
+                        test.setCategory_name(t.getCategory_name());
+                        test.setCategory_id(t.getCategory_id());
+*/
+
+                        //testMapList.add(testMap);
+                        //testsFinalList.add(test);
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-                SimpleAdapter adapter = new SimpleAdapter(getApplication(), testMapList, R.layout.list_item_test,
-                        new String [] {"name"},new int [] { R.id.testName});
-
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, testsFinalListNames);//{
+                    /*@Override
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        View view = super.getView(position, convertView, parent);
+                        TextView text = (TextView) view.findViewById(R.id.testName);
+                        text.setTextColor(Color.BLUE);
+                        return view;
+                    }
+                };;*/
                 test_listview.setAdapter(adapter);
             }
 
@@ -165,6 +211,7 @@ public class TestListActivity extends Activity implements AdapterView.OnItemClic
             }
         };
         methods.getTestsAll(cb);
+
 
     }
 
@@ -185,13 +232,15 @@ public class TestListActivity extends Activity implements AdapterView.OnItemClic
                 "Element: "+position, Toast.LENGTH_LONG)
                 .show();*/
         int choosenTestId = 0;
-        //choosenTestId = testsFinalList.get(13).getTest_id();
-        choosenTestId = position+1;
+        choosenTestId = testsFinalListIds.get(position);
+        //choosenTestId = position+1;
         Toast.makeText(getApplicationContext(),
-                "Element: "+choosenTestId+" pozycja: "+position, Toast.LENGTH_LONG)
+                "Name: "+testsFinalListNames.get(position), Toast.LENGTH_SHORT)
                 .show();
         Intent intent = new Intent(getApplicationContext(), TestActivity.class);
-        intent.putExtra("position", choosenTestId);
+        intent.putExtra("position", testsFinalListIds.get(position));
+        intent.putExtra("testName", testsFinalListNames.get(position));
+
         startActivity(intent);
     }
 }

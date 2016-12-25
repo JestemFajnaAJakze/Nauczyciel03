@@ -3,6 +3,7 @@ package com.project.mcr.nauczyciel02.activity.question;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -31,6 +32,7 @@ import retrofit.client.OkClient;
 public class QuestionActivity extends Activity {
     int chosenQuestionId;
     ListView test_listview;
+    String categoryName, questionName;
 
     static final String API_URL = "http://192.168.1.100/android_login_api2";
     RestAdapter restAdapter, restAdapter2;
@@ -41,64 +43,20 @@ public class QuestionActivity extends Activity {
     private Question question;
     private List<Answer> answerFinalList;
     private Answer answer;
-    private SimpleAdapter adapter;
+
+
+    private  ArrayList<String> answerNameList;
+    private ArrayList<Integer> answerIsCorrectList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
-        chosenQuestionId = 0;
-        chosenQuestionId = getIntent().getIntExtra("position", 0)+1;
+        chosenQuestionId = getIntent().getIntExtra("position", 0);
+        categoryName = getIntent().getStringExtra("categoryName");
+        questionName = getIntent().getStringExtra("questionName");
+
+
         test_listview = (ListView) findViewById(R.id.test_listview);
-
-        OkHttpClient mOkHttpClient = new OkHttpClient();
-        mOkHttpClient.setConnectTimeout(15000, TimeUnit.MILLISECONDS);
-        mOkHttpClient.setReadTimeout(15000, TimeUnit.MILLISECONDS);
-
-        restAdapter = new RestAdapter.Builder()
-                .setEndpoint(API_URL)
-                .setClient(new OkClient(mOkHttpClient))
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .build();
-        RetrofitAPI methods = restAdapter.create(RetrofitAPI.class);
-
-
-        Callback<List<Question>> cb = new Callback<List<Question>>() {
-
-            @Override
-            public void success(List<Question> questions, retrofit.client.Response response) {
-                //Log.v("BookListActivity", booksString);
-                //TypeToken<List<Book>> token = new TypeToken<List<Book>>() {};
-                //List<Book> books = new Gson().fromJson(booksString, token.getType());
-
-                question = new Question();
-                List<HashMap<String,Object>> questionListMap = new ArrayList<>();
-                for(Question q: questions){
-                    HashMap<String, Object> questionMap = new HashMap<>();
-
-                    try {
-
-                        questionMap.put(q.getClass().getField("question_id").getName(),q.getQuestion_id());
-                        questionMap.put(q.getClass().getField("name").getName(),q.getName());
-                        question.setName(q.getName());
-                        question.setQuestion_id(q.getQuestion_id());
-                        questionListMap.add(questionMap);
-                    } catch (NoSuchFieldException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }
-
-
-
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e("QuestionListActivity", error.getMessage() +"\n"+ error.getStackTrace());
-                error.printStackTrace();
-            }
-        };
-        methods.getQuestionById(chosenQuestionId,cb);
-
 
 
         OkHttpClient mOkHttpClient2 = new OkHttpClient();
@@ -121,30 +79,19 @@ public class QuestionActivity extends Activity {
                 //TypeToken<List<Book>> token = new TypeToken<List<Book>>() {};
                 //List<Book> books = new Gson().fromJson(booksString, token.getType());
 
-                answer = new Answer();
-                answerFinalList = new ArrayList<>();
-                List<HashMap<String,Object>> answerListMap = new ArrayList<>();
+
+                answerNameList = new ArrayList<>();
+                answerIsCorrectList = new ArrayList<>();
                 for(Answer q: questions){
-                    HashMap<String, Object> answerMap = new HashMap<>();
 
-                    try {
+                    answerNameList.add(q.getName());
+                    answerIsCorrectList.add(q.getIs_correct());
 
-                        answerMap.put(q.getClass().getField("answer_id").getName(),q.getAnswer_id());
-                        answerMap.put(q.getClass().getField("is_correct").getName(),q.getIs_correct());
-                        answerMap.put(q.getClass().getField("name").getName(),q.getName());
-                        answer.setName(q.getName());
-                        answer.setAnswer_id(q.getAnswer_id());
-                        answer.setIs_correct(q.getIs_correct());
-                        question.setQuestion_id(q.getQuestion_id());
-                        answerListMap.add(answerMap);
-                        answerFinalList.add(answer);
-                    } catch (NoSuchFieldException e) {
-                        e.printStackTrace();
-                    }
+
                 }
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, answerNameList);
 
-                adapter = new SimpleAdapter(getApplication(), answerListMap, R.layout.list_item_test,
-                        new String [] {"name"},new int [] { R.id.testName});
+
 
                 test_listview.setAdapter(adapter);
             }
@@ -167,8 +114,8 @@ public class QuestionActivity extends Activity {
         // TODO Auto-generated method stub
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
-            TextView questionName = (TextView) findViewById(R.id.questionName);
-            questionName.setText("Tresc: "+question.getName());
+            TextView questionNameTxt = (TextView) findViewById(R.id.questionName);
+            questionNameTxt.setText("Tresc: "+questionName);
 
             //adapter.getItem(0).
 
