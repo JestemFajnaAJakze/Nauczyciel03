@@ -2,9 +2,11 @@ package com.project.mcr.nauczyciel02.activity.test;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -178,7 +180,14 @@ public class TestActivity extends Activity implements AdapterView.OnItemClickLis
                             questionsIdList.add(q.getQuestion_id());
                             questionsNameLists.add(q.getName());
                         }
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, questionsNameLists);
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, questionsNameLists){
+                            @Override
+                            public View getView(int position, View convertView, ViewGroup parent) {
+                                TextView textView = (TextView) super.getView(position, convertView, parent);
+                                textView.setTextColor(Color.BLACK);
+                                return textView;
+                            }
+                        };;
 
                         test_listview.setAdapter(adapter);
                     }

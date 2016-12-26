@@ -104,7 +104,14 @@ public class TestListActivity extends Activity implements AdapterView.OnItemClic
                         e.printStackTrace();
                     }
                 }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, testsFinalListNames);//{
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, testsFinalListNames){
+                    @Override
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        TextView textView = (TextView) super.getView(position, convertView, parent);
+                        textView.setTextColor(Color.BLACK);
+                        return textView;
+                    }
+                };;//{
                     /*@Override
                     public View getView(int position, View convertView, ViewGroup parent) {
                         View view = super.getView(position, convertView, parent);
@@ -190,15 +197,14 @@ public class TestListActivity extends Activity implements AdapterView.OnItemClic
                         e.printStackTrace();
                     }
                 }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, testsFinalListNames);//{
-                    /*@Override
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, testsFinalListNames){
+                    @Override
                     public View getView(int position, View convertView, ViewGroup parent) {
-                        View view = super.getView(position, convertView, parent);
-                        TextView text = (TextView) view.findViewById(R.id.testName);
-                        text.setTextColor(Color.BLUE);
-                        return view;
+                        TextView textView = (TextView) super.getView(position, convertView, parent);
+                        textView.setTextColor(Color.BLACK);
+                        return textView;
                     }
-                };;*/
+                };
                 test_listview.setAdapter(adapter);
             }
 

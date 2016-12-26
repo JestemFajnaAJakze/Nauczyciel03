@@ -1,8 +1,11 @@
 package com.project.mcr.nauczyciel02.activity.question;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -37,7 +40,7 @@ public class QuestionActivity extends Activity {
     static final String API_URL = "http://192.168.1.100/android_login_api2";
     RestAdapter restAdapter, restAdapter2;
     int chosenTestId;
-    List<HashMap<String,Object>> testMapList;
+    List<HashMap<String, Object>> testMapList;
     HashMap<String, Object> testMap;
     private List<Question> questionsFinalList;
     private Question question;
@@ -45,8 +48,9 @@ public class QuestionActivity extends Activity {
     private Answer answer;
 
 
-    private  ArrayList<String> answerNameList;
+    private ArrayList<String> answerNameList;
     private ArrayList<Integer> answerIsCorrectList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,41 +74,43 @@ public class QuestionActivity extends Activity {
                 .build();
         RetrofitAPI methods2 = restAdapter2.create(RetrofitAPI.class);
 
-
         Callback<List<Answer>> cb2 = new Callback<List<Answer>>() {
 
             @Override
             public void success(List<Answer> questions, retrofit.client.Response response) {
-                //Log.v("BookListActivity", booksString);
-                //TypeToken<List<Book>> token = new TypeToken<List<Book>>() {};
-                //List<Book> books = new Gson().fromJson(booksString, token.getType());
-
 
                 answerNameList = new ArrayList<>();
                 answerIsCorrectList = new ArrayList<>();
-                for(Answer q: questions){
+                for (Answer q : questions) {
 
                     answerNameList.add(q.getName());
                     answerIsCorrectList.add(q.getIs_correct());
 
 
                 }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, answerNameList);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, answerNameList) {
+                    @Override
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        TextView textView = (TextView) super.getView(position, convertView, parent);
+                        if (answerIsCorrectList.get(position) == 1) {
+                            textView.setTextColor(Color.GREEN);
+                        } else {
+                            textView.setTextColor(Color.BLACK);
+                        }
 
-
-
+                        return textView;
+                    }
+                };
                 test_listview.setAdapter(adapter);
             }
 
-
-
             @Override
             public void failure(RetrofitError error) {
-                Log.e("QuestionListActivity", error.getMessage() +"\n"+ error.getStackTrace());
+                Log.e("QuestionListActivity", error.getMessage() + "\n" + error.getStackTrace());
                 error.printStackTrace();
             }
         };
-        methods2.getAnswerListQuestionById(chosenQuestionId,cb2);
+        methods2.getAnswerListQuestionById(chosenQuestionId, cb2);
 
 
     }
@@ -115,11 +121,7 @@ public class QuestionActivity extends Activity {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
             TextView questionNameTxt = (TextView) findViewById(R.id.questionName);
-            questionNameTxt.setText("Tresc: "+questionName);
-
-            //adapter.getItem(0).
-
-
+            questionNameTxt.setText("Tresc: " + questionName);
 
         }
     }

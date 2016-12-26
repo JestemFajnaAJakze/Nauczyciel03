@@ -2,20 +2,27 @@ package com.project.mcr.nauczyciel02.activity.test;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project.mcr.nauczyciel02.R;
+import com.project.mcr.nauczyciel02.activity.question.QuestionActivity;
 import com.project.mcr.nauczyciel02.endpoint.RetrofitAPI;
 import com.project.mcr.nauczyciel02.model.Category;
 import com.project.mcr.nauczyciel02.model.Question;
@@ -41,7 +48,7 @@ import static com.project.mcr.nauczyciel02.R.layout.choosen_list_item_test;
 /**
  * Created by mikolaj.mocarski on 2016-11-29.
  */
-public class TestAddActivity extends Activity implements AdapterView.OnItemSelectedListener {
+public class TestAddActivity extends Activity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     private EditText questionNameInput;
     private EditText asnwerAInput;
@@ -50,25 +57,28 @@ public class TestAddActivity extends Activity implements AdapterView.OnItemSelec
     private EditText asnwerDInput;
     private Spinner spinner;
     private int choosenCategoryId;
-    private List<HashMap<String,Object>> categoryDropList;
+    private List<HashMap<String, Object>> categoryDropList;
     private HashMap<String, Object> categoryMap;
     private List<Category> categoriesFinalList;
     private ListView choosenQuestionList;
     private List<Question> finalQuestionList;
-    private SimpleAdapter adapter;
     private int currentTestId;
     static final String API_URL = "http://192.168.1.100/android_login_api2";
     RestAdapter restAdapter;
     RestAdapter restAdapter2;
+    private Question currentQuestion;
+    private ArrayList<String> questionNameList, categoryNameList;
+    private ArrayList<Integer> questionIdList, categoryIdList, selectedQuestions;
+    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_test);
 
-         choosenQuestionList = (ListView) findViewById(R.id.choosenQuestionList);
+        choosenQuestionList = (ListView) findViewById(R.id.choosenQuestionList);
 
-        spinner = (Spinner)findViewById(R.id.spinner);
+        spinner = (Spinner) findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
         currentTestId = 0;
 
@@ -90,34 +100,19 @@ public class TestAddActivity extends Activity implements AdapterView.OnItemSelec
             public void success(List<Test> questions, Response response) {
 
 
-                List<HashMap<String,Object>> questionListMap = new ArrayList<>();
+                for (Test q : questions) {
 
-                for(Test q: questions){
-                    HashMap<String, Object> questionMap = new HashMap<>();
 
-                    try {
-
-                        questionMap.put(q.getClass().getField("test_id").getName(),q.getTest_id());
-                        //questionMap.put(q.getClass().getField("name").getName(),q.getName());
-
-                        questionListMap.add(questionMap);
-                        currentTestId = q.getTest_id()+1;
-                    } catch (NoSuchFieldException e) {
-                        e.printStackTrace();
-                    }
+                    currentTestId = q.getTest_id() + 1;
                 }
-
-
-
 
 
             }
 
 
-
             @Override
             public void failure(RetrofitError error) {
-                Log.e("AddQuestionListActivity", error.getMessage() +"\n"+ error.getStackTrace());
+                Log.e("AddQuestionListActivity", error.getMessage() + "\n" + error.getStackTrace());
                 error.printStackTrace();
             }
         };
@@ -139,59 +134,43 @@ public class TestAddActivity extends Activity implements AdapterView.OnItemSelec
 
             @Override
             public void success(List<Category> categories, retrofit.client.Response response) {
-                //Log.v("BookListActivity", booksString);
-                //TypeToken<List<Book>> token = new TypeToken<List<Book>>() {};
-                //List<Book> books = new Gson().fromJson(booksString, token.getType());
 
-                categoryDropList = new ArrayList<>();
-                //currentCategory = new Category(1,"");
-                categoriesFinalList = new ArrayList<>();
-                for(Category c: categories){
-                    categoryMap = new HashMap<>();
+                categoryIdList = new ArrayList<>();
+                categoryNameList = new ArrayList<>();
 
-                    try {
+                for (Category c : categories) {
 
-                        categoryMap.put(c.getClass().getField("category_id").getName(),c.getCategory_id());
-                        categoryMap.put(c.getClass().getField("name").getName(),c.getName());
-
-                        categoryDropList.add(categoryMap);
-                        //currentCategory.setCategory_id(c.getCategory_id());
-                        categoriesFinalList.add(c);
-                    } catch (NoSuchFieldException e) {
-                        e.printStackTrace();
-                    }
+                    categoryIdList.add(c.getCategory_id());
+                    categoryNameList.add(c.getName());
                 }
-                SimpleAdapter adapter2 = new SimpleAdapter(getApplication(), categoryDropList, R.layout.list_item_category,
-                        new String [] {"name"},new int [] {R.id.categoryName});
+                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, categoryNameList);
 
                 spinner.setAdapter(adapter2);
             }
 
 
-
             @Override
             public void failure(RetrofitError error) {
-                Log.e("TestAddActivity", error.getMessage() +"\n"+ error.getStackTrace());
+                Log.e("TestAddActivity", error.getMessage() + "\n" + error.getStackTrace());
                 error.printStackTrace();
             }
         };
         methods.getCategoryList(cb);
 
 
-
     }
 
 
-    public void onClickAddTest(View v){
+    public void onClickAddTest(View v) {
 
         EditText testNameInput = (EditText) findViewById(R.id.testName);
         String testNameValue = testNameInput.getText().toString().trim();
 
-        if(testNameValue.isEmpty() || (choosenCategoryId == 0)){
+        if (testNameValue.isEmpty() || (choosenCategoryId == 0)) {
             Toast.makeText(getApplicationContext(),
                     "Prosze uzupelnic dane formularza", Toast.LENGTH_LONG)
                     .show();
-        }else{
+        } else {
             OkHttpClient mOkHttpClient = new OkHttpClient();
             mOkHttpClient.setConnectTimeout(15000, TimeUnit.MILLISECONDS);
             mOkHttpClient.setReadTimeout(15000, TimeUnit.MILLISECONDS);
@@ -208,68 +187,78 @@ public class TestAddActivity extends Activity implements AdapterView.OnItemSelec
 
                 @Override
                 public void success(List<Test> tests, retrofit.client.Response response) {
-                    /*List<HashMap<String,Object>> questionListMap = new ArrayList<>();
-                    for(Test q: tests){
-                        HashMap<String, Object> questionMap = new HashMap<>();
-
-                        try {
-
-                            questionMap.put(q.getClass().getField("question_id").getName(),q.get());
-                            //questionMap.put(q.getClass().getField("name").getName(),q.getName());
-
-                            questionListMap.add(questionMap);
-                            choosenCategoryId = q.getQuestion_id()+1;
-                        } catch (NoSuchFieldException e) {
-                            e.printStackTrace();
-                        }
-                    }*/
-
-
-
-
 
                 }
-
-
 
 
                 @Override
                 public void failure(RetrofitError error) {
-                    Log.e("TestAddActivity", error.getMessage() +"\n"+ error.getStackTrace());
+                    Log.e("TestAddActivity", error.getMessage() + "\n" + error.getStackTrace());
                     error.printStackTrace();
                 }
             };
-            methods.addTest(choosenCategoryId,testNameValue,cb);
+            methods.addTest(choosenCategoryId, testNameValue, cb);
 
-        /*Boolean isSelected;
-            int liczba = 0;
-            int amountOfQuestion = choosenQuestionList.getCount();
-            testNameInput.setText(": "+amountOfQuestion);
-            //CheckBox choosenQuestion = (CheckBox) findViewById(R.id.choosenQuestion);
-            for (int i = 1; i <= amountOfQuestion; i++){
-                isSelected = false;
-                adapter.getItem(i);
-                //CheckBox choosenQuestion = (CheckBox) choosenQuestionList.getChildAt(2).findViewById(R.id.linearLayout);
-                CheckBox choosenQuestion = (CheckBox) choosenQuestionList.getChildAt(2).findViewById(choosen_list_item_test).;//.findViewById(R.id.choosenQuestion);
-                //LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout);
-                layout.
-                isSelected = choosenQuestion.isSelected();
-                if(isSelected){
-                    //finalQuestionList
-                    liczba++;
-                     Toast.makeText(getApplicationContext(),
-                    "TERAZ DODAJE LIST VIEW DLA WYBRANEJ KATEGORII", Toast.LENGTH_LONG)
-                    .show();
+
+            selectedQuestions = new ArrayList<>();
+            SparseBooleanArray checked = choosenQuestionList.getCheckedItemPositions();
+            ArrayList<String> selectedItems = new ArrayList<String>();
+            for (int i = 0; i < checked.size(); i++) {
+                // Item position in adapter
+                int position = checked.keyAt(i);
+                // Add sport if it is checked i.e.) == TRUE!
+                if (checked.valueAt(i)) {
+                    selectedItems.add(adapter.getItem(position));
+                    selectedQuestions.add(questionIdList.get(position));
                 }
-        }*/
-            //testNameInput.setText("= "+liczba);
-        }
 
+            }
+            /*Toast.makeText(getApplicationContext(),
+                    "Ile wybral: " + selectedQuestions.get(2), Toast.LENGTH_LONG)
+                    .show();*/
+
+            for (int x = 0; x < selectedQuestions.size(); x++) {
+
+
+                OkHttpClient mOkHttpClient2 = new OkHttpClient();
+                mOkHttpClient2.setConnectTimeout(15000, TimeUnit.MILLISECONDS);
+                mOkHttpClient2.setReadTimeout(15000, TimeUnit.MILLISECONDS);
+
+                restAdapter = new RestAdapter.Builder()
+                        .setEndpoint(API_URL)
+                        .setClient(new OkClient(mOkHttpClient2))
+                        .setLogLevel(RestAdapter.LogLevel.FULL)
+                        .build();
+                RetrofitAPI methods2 = restAdapter.create(RetrofitAPI.class);
+
+
+                Callback<List<Test>> cb2 = new Callback<List<Test>>() {
+
+                    @Override
+                    public void success(List<Test> tests, retrofit.client.Response response) {
+
+                    }
+
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.e("TestAddActivity", error.getMessage() + "\n" + error.getStackTrace());
+                        error.printStackTrace();
+                    }
+                };
+                methods2.addTestQuestion(currentTestId, selectedQuestions.get(x), cb2);
+
+
+                Intent intent = new Intent(getApplicationContext(), TestAssignedToClassActivity.class);
+                intent.putExtra("currentTestId", currentTestId);
+                startActivity(intent);
+            }
+        }
 
 
     }
 
-    public void onClickBackButton(View v){
+    public void onClickBackButton(View v) {
         Intent intent = new Intent(getApplicationContext(), TestListActivity.class);
         startActivity(intent);
     }
@@ -277,12 +266,10 @@ public class TestAddActivity extends Activity implements AdapterView.OnItemSelec
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-            choosenCategoryId = categoriesFinalList.get(position).getCategory_id();
-            /*Toast.makeText(getApplicationContext(),
-                    "TERAZ DODAJE LIST VIEW DLA WYBRANEJ KATEGORII", Toast.LENGTH_LONG)
-                    .show();*/
 
-        choosenQuestionList = (ListView) findViewById(R.id.choosenQuestionList) ;
+        choosenCategoryId = categoryIdList.get(position);
+
+        choosenQuestionList = (ListView) findViewById(R.id.choosenQuestionList);
 
 
         OkHttpClient mOkHttpClient = new OkHttpClient();
@@ -299,62 +286,51 @@ public class TestAddActivity extends Activity implements AdapterView.OnItemSelec
 
         Callback<List<Question>> cb = new Callback<List<Question>>() {
 
-            List<HashMap<String,Object>> questionListMap = new ArrayList<>();
             @Override
             public void success(List<Question> questions, retrofit.client.Response response) {
 
-                finalQuestionList = new ArrayList<>();
+                questionIdList = new ArrayList<>();
+                questionNameList = new ArrayList<>();
 
-                for(Question q: questions){
-                    HashMap<String, Object> questionMap = new HashMap<>();
+                for (Question q : questions) {
 
-                    try {
-
-                        questionMap.put(q.getClass().getField("question_id").getName(),q.getQuestion_id());
-                        questionMap.put(q.getClass().getField("name").getName(),q.getName());
-                        questionListMap.add(questionMap);
-                         adapter = new SimpleAdapter(getApplication(), questionListMap, choosen_list_item_test,
-                                new String [] {"name"},new int [] {R.id.choosenQuestion});
-
-                        choosenQuestionList.setAdapter(adapter);
-                        finalQuestionList.add(q);
-
-                    } catch (NoSuchFieldException e) {
-                        e.printStackTrace();
-                    }
-
+                    questionIdList.add(q.getQuestion_id());
+                    questionNameList.add(q.getName());
                 }
+                adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_multiple_choice, questionNameList);
 
-
+                choosenQuestionList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                choosenQuestionList.setAdapter(adapter);
 
 
             }
-
 
 
             @Override
             public void failure(RetrofitError error) {
-                Log.e("TestAddActivity", error.getMessage() +"\n"+ error.getStackTrace());
+                Log.e("TestAddActivity", error.getMessage() + "\n" + error.getStackTrace());
                 error.printStackTrace();
-                HashMap<String, Object> questionMap = new HashMap<>();
 
-                questionMap.put("name","Brak pytan dla wybranej kategorii");
-                adapter = new SimpleAdapter(getApplication(), questionListMap, R.layout.list_item_question,
-                        new String [] {"name"},new int [] {R.id.questionName});
+                questionNameList.add("Brak pytan dla wybranej kategorii");
+                adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, questionNameList);
+
 
                 choosenQuestionList.setAdapter(adapter);
             }
         };
-        methods.getQuestionListByCategory(choosenCategoryId,cb);
+        methods.getQuestionListByCategory(choosenCategoryId, cb);
+
 
     }
 
 
-
-
-
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    @Override
+    public void onClick(View v) {
 
     }
 }

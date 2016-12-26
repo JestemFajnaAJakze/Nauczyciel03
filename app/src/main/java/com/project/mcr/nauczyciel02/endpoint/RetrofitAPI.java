@@ -6,6 +6,7 @@ package com.project.mcr.nauczyciel02.endpoint;
 import com.project.mcr.nauczyciel02.model.Answer;
 import com.project.mcr.nauczyciel02.model.Category;
 import com.project.mcr.nauczyciel02.model.Question;
+import com.project.mcr.nauczyciel02.model.SchoolClass;
 import com.project.mcr.nauczyciel02.model.Student;
 import com.project.mcr.nauczyciel02.model.Teacher;
 import com.project.mcr.nauczyciel02.model.Test;
@@ -28,6 +29,16 @@ public interface RetrofitAPI {
     //dla nauczyciela lista testow
     @GET("/get_all_tests.php")
     void getTestsAll(Callback<List<Test>> cb);
+
+
+    @GET("/get_all_classes.php")
+    void getClassesAll(Callback<List<SchoolClass>> cb);
+
+    @GET("/add_test_question.php")
+    void addTestQuestion(@Query("test_id") int test_id, @Query("question_id") int question_id, Callback<List<Test>> cb);
+
+    @GET("/add_test_class.php")
+    void addTestClass(@Query("test_id") int test_id, @Query("schoolClass_id") int schoolClass_id, Callback<List<SchoolClass>> cb);
 
     @GET("/add_test.php")
     void addTest(@Query("category_id") int category_id, @Query("name") String name, Callback<List<Test>> cb);

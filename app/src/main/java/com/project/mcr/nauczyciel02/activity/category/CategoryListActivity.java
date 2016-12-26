@@ -1,5 +1,6 @@
 package com.project.mcr.nauczyciel02.activity.category;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import com.project.mcr.nauczyciel02.R;
@@ -16,9 +17,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 
 import com.project.mcr.nauczyciel02.model.Category;
@@ -73,9 +76,17 @@ public class CategoryListActivity extends Activity {
                     categoryIdsList.add(c.getCategory_id());
 
                 }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, categoryNameList);
-
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, categoryNameList){
+                    @Override
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        TextView textView = (TextView) super.getView(position, convertView, parent);
+                        textView.setTextColor(Color.BLACK);
+                        return textView;
+                    }
+                };
                 category_listview.setAdapter(adapter);
+
+
             }
 
 
@@ -124,7 +135,14 @@ public class CategoryListActivity extends Activity {
                     categoryIdsList.add(c.getCategory_id());
 
                 }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, categoryNameList);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, categoryNameList){
+                    @Override
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        TextView textView = (TextView) super.getView(position, convertView, parent);
+                        textView.setTextColor(Color.BLACK);
+                        return textView;
+                    }
+                };;
 
                 category_listview.setAdapter(adapter);
             }

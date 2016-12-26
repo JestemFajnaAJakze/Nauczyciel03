@@ -8,34 +8,17 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Wybrane pytanie"
+        android:text="Do ktorych klas przypisac test?"
         android:id="@+id/textView"
         android:layout_gravity="center_horizontal"
         android:layout_weight="3"
         android:paddingTop="20dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Tresc:"
-        android:id="@+id/questionName"
-        android:textColor="#000000" />
-
     <ListView
-        android:id="@+id/test_listview"
+        android:id="@+id/choosenQuestionList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="20" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Poprawna odpowiedz"
-        android:id="@+id/textView6"
-        android:textColor="#ff00ff00"
-        android:layout_gravity="center" />
+        android:layout_weight="14" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -48,13 +31,13 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton"
-            android:src="@drawable/back_button"
+            android:id="@+id/imageButton2"
+            android:src="@drawable/ok_button"
             android:scaleType="fitXY"
             android:adjustViewBounds="false"
             android:padding="0dp"
             android:background="@android:color/transparent"
-            android:onClick="onClickBackButton" />
+            android:onClick="onClickAddTest" />
 
     </LinearLayout>
 
