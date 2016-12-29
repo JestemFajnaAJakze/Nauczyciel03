@@ -1,4 +1,4 @@
-package com.project.mcr.nauczyciel02.endpoint;
+package com.project.mcr.nauczyciel02.network;
 
 /**
  * Created by MCR on 19.12.2016.
@@ -14,9 +14,7 @@ import com.project.mcr.nauczyciel02.model.Test;
 import java.util.List;
 
 import retrofit.Callback;
-import retrofit.client.Response;
 import retrofit.http.GET;
-import retrofit.http.Path;
 import retrofit.http.Query;
 
 /**

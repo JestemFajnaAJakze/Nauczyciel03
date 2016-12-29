@@ -4,37 +4,28 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.CheckedTextView;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project.mcr.nauczyciel02.R;
-import com.project.mcr.nauczyciel02.activity.question.QuestionActivity;
-import com.project.mcr.nauczyciel02.endpoint.RetrofitAPI;
+import com.project.mcr.nauczyciel02.network.RetrofitAPI;
 import com.project.mcr.nauczyciel02.model.Category;
 import com.project.mcr.nauczyciel02.model.Question;
 import com.project.mcr.nauczyciel02.model.Test;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.concurrent.TimeUnit;
 
 import retrofit.Callback;
@@ -42,8 +33,6 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.OkClient;
 import retrofit.client.Response;
-
-import static com.project.mcr.nauczyciel02.R.layout.choosen_list_item_test;
 
 /**
  * Created by mikolaj.mocarski on 2016-11-29.
@@ -143,8 +132,16 @@ public class TestAddActivity extends Activity implements AdapterView.OnItemSelec
                     categoryIdList.add(c.getCategory_id());
                     categoryNameList.add(c.getName());
                 }
-                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, categoryNameList);
+                final ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getApplication(), R.layout.list_item_test, categoryNameList){
+                    @Override
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        TextView textView = (TextView) super.getView(position, convertView, parent);
+                        textView.setTextColor(Color.BLACK);
+                        return textView;
+                    }
+                };;
 
+                spinner.setBackgroundColor(Color.BLUE);
                 spinner.setAdapter(adapter2);
             }
 
@@ -297,7 +294,14 @@ public class TestAddActivity extends Activity implements AdapterView.OnItemSelec
                     questionIdList.add(q.getQuestion_id());
                     questionNameList.add(q.getName());
                 }
-                adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_multiple_choice, questionNameList);
+                adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_multiple_choice, questionNameList){
+                    @Override
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        TextView textView = (TextView) super.getView(position, convertView, parent);
+                        textView.setTextColor(Color.BLACK);
+                        return textView;
+                    }
+                };;
 
                 choosenQuestionList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
                 choosenQuestionList.setAdapter(adapter);

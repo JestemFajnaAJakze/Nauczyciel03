@@ -12,13 +12,12 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project.mcr.nauczyciel02.R;
-import com.project.mcr.nauczyciel02.endpoint.RetrofitAPI;
+import com.project.mcr.nauczyciel02.network.RetrofitAPI;
 import com.project.mcr.nauczyciel02.model.Answer;
 import com.project.mcr.nauczyciel02.model.Category;
 import com.project.mcr.nauczyciel02.model.Question;
@@ -47,7 +46,7 @@ public class QuestionAddActivity extends Activity implements AdapterView.OnItemS
     private EditText asnwerDInput;
     private Spinner spinner;
     private int choosenCategoryId;
-    private List<HashMap<String,Object>> categoryDropList;
+    private List<HashMap<String, Object>> categoryDropList;
     private HashMap<String, Object> categoryMap;
     private List<Category> categoriesFinalList;
     private int currentQuestionId;
@@ -57,8 +56,9 @@ public class QuestionAddActivity extends Activity implements AdapterView.OnItemS
     private RadioButton radioButton4;
     private RadioGroup radioGroup;
     private int correctAnswer;
-    private ArrayList<Integer> categoryIdList;
-    private ArrayList<String> categoryNameList;
+    private ArrayList<Integer> categoryIdList, questionIdList;
+    private ArrayList<String> categoryNameList, questionNamesList;
+
 
     static final String API_URL = "http://192.168.1.100/android_login_api2";
     RestAdapter restAdapter;
@@ -68,12 +68,12 @@ public class QuestionAddActivity extends Activity implements AdapterView.OnItemS
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_question);
-        questionNameInput = (EditText)findViewById(R.id.question);
-        asnwerAInput = (EditText)findViewById(R.id.answerA);
-        asnwerBInput = (EditText)findViewById(R.id.answerB);
-        asnwerCInput = (EditText)findViewById(R.id.answerC);
-        asnwerDInput = (EditText)findViewById(R.id.answerD);
-        spinner = (Spinner)findViewById(R.id.spinner);
+        questionNameInput = (EditText) findViewById(R.id.question);
+        asnwerAInput = (EditText) findViewById(R.id.answerA);
+        asnwerBInput = (EditText) findViewById(R.id.answerB);
+        asnwerCInput = (EditText) findViewById(R.id.answerC);
+        asnwerDInput = (EditText) findViewById(R.id.answerD);
+        spinner = (Spinner) findViewById(R.id.spinner);
         radioButton = (RadioButton) findViewById(R.id.radioButton);
         radioButton2 = (RadioButton) findViewById(R.id.radioButton2);
         radioButton3 = (RadioButton) findViewById(R.id.radioButton3);
@@ -100,39 +100,25 @@ public class QuestionAddActivity extends Activity implements AdapterView.OnItemS
             @Override
             public void success(List<Question> questions, retrofit.client.Response response) {
 
-
-                List<HashMap<String,Object>> questionListMap = new ArrayList<>();
-                for(Question q: questions){
-                    HashMap<String, Object> questionMap = new HashMap<>();
-
-                    try {
-
-                        questionMap.put(q.getClass().getField("question_id").getName(),q.getQuestion_id());
-                        //questionMap.put(q.getClass().getField("name").getName(),q.getName());
-
-                        questionListMap.add(questionMap);
-                        currentQuestionId = q.getQuestion_id()+1;
-                    } catch (NoSuchFieldException e) {
-                        e.printStackTrace();
-                    }
+                questionIdList = new ArrayList<>();
+                questionNamesList = new ArrayList<>();
+                for (Question q : questions) {
+                   /* questionIdList.add(q.getQuestion_id());
+                    questionNamesList.add(q.getName());*/
+                    currentQuestionId = q.getQuestion_id()+1;
                 }
 
 
-
-
-
             }
-
 
 
             @Override
             public void failure(RetrofitError error) {
-                Log.e("AddQuestionListActivity", error.getMessage() +"\n"+ error.getStackTrace());
+                Log.e("AddQuestionListActivity", error.getMessage() + "\n" + error.getStackTrace());
                 error.printStackTrace();
             }
         };
         methods3.getInsertedQuestionId(cb3);
-
 
 
         OkHttpClient mOkHttpClient = new OkHttpClient();
@@ -154,14 +140,14 @@ public class QuestionAddActivity extends Activity implements AdapterView.OnItemS
 
                 categoryIdList = new ArrayList<>();
                 categoryNameList = new ArrayList<>();
-                for(Category c: categories){
+                for (Category c : categories) {
 
 
                     categoryIdList.add(c.getCategory_id());
                     categoryNameList.add(c.getName());
 
                 }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, categoryNameList){
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, categoryNameList) {
                     @Override
                     public View getView(int position, View convertView, ViewGroup parent) {
                         TextView textView = (TextView) super.getView(position, convertView, parent);
@@ -174,20 +160,18 @@ public class QuestionAddActivity extends Activity implements AdapterView.OnItemS
             }
 
 
-
             @Override
             public void failure(RetrofitError error) {
-                Log.e("AddQuestionListActivity", error.getMessage() +"\n"+ error.getStackTrace());
+                Log.e("AddQuestionListActivity", error.getMessage() + "\n" + error.getStackTrace());
                 error.printStackTrace();
             }
         };
         methods.getCategoryList(cb);
 
 
-
     }
 
-    public void onClickAddQuestion(View v){
+    public void onClickAddQuestion(View v) {
         //
         final String question = questionNameInput.getText().toString().trim();
         String answerA = asnwerAInput.getText().toString().trim();
@@ -200,12 +184,12 @@ public class QuestionAddActivity extends Activity implements AdapterView.OnItemS
         answerList.add(answerC);
         answerList.add(answerD);
 
-        if(question.isEmpty() ||(correctAnswer==0) || answerA.isEmpty() || answerB.isEmpty() || answerC.isEmpty() || answerD.isEmpty() ){
+        if (question.isEmpty() || (correctAnswer == 0) || answerA.isEmpty() || answerB.isEmpty() || answerC.isEmpty() || answerD.isEmpty()) {
 
-             Toast.makeText(getApplicationContext(),
-                "Prosze uzupelnic dane formularza", Toast.LENGTH_LONG)
-                .show();
-        }else {
+            Toast.makeText(getApplicationContext(),
+                    "Prosze uzupelnic dane formularza", Toast.LENGTH_LONG)
+                    .show();
+        } else {
 
             //DODAJE DO BAZY nową kategorię
        /* Toast.makeText(getApplicationContext(),
@@ -238,12 +222,11 @@ public class QuestionAddActivity extends Activity implements AdapterView.OnItemS
                 }
             };
 
-            methods.addQuestion(choosenCategoryId,question , cb);
-
+            methods.addQuestion(choosenCategoryId, question, cb);
 
 
             int iterator = 1;
-            for(String a : answerList){
+            for (String a : answerList) {
                 OkHttpClient mOkHttpClient2 = new OkHttpClient();
                 mOkHttpClient2.setConnectTimeout(15000, TimeUnit.MILLISECONDS);
                 mOkHttpClient2.setReadTimeout(15000, TimeUnit.MILLISECONDS);
@@ -270,10 +253,10 @@ public class QuestionAddActivity extends Activity implements AdapterView.OnItemS
                     }
                 };
 
-                if (correctAnswer==iterator){
-                    methods.addAnswer(currentQuestionId,a,1 , cb2);
-                }else {
-                    methods.addAnswer(currentQuestionId,a,0 , cb2);
+                if (correctAnswer == iterator) {
+                    methods.addAnswer(currentQuestionId, a, 1, cb2);
+                } else {
+                    methods.addAnswer(currentQuestionId, a, 0, cb2);
                 }
 
                 iterator++;
@@ -299,36 +282,36 @@ public class QuestionAddActivity extends Activity implements AdapterView.OnItemS
 
     }
 
-    public void onClickSelectCorrectAnswer (View view){
+    public void onClickSelectCorrectAnswer(View view) {
         boolean checked = ((RadioButton) view).isChecked();
 
         // Check which radio button was clicked
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.radioButton:
-                if (checked){
+                if (checked) {
                     correctAnswer = 1;
                 }
 
-                    break;
+                break;
             case R.id.radioButton2:
-                if (checked){
+                if (checked) {
                     correctAnswer = 2;
                 }
-                    break;
+                break;
             case R.id.radioButton3:
-                if (checked){
+                if (checked) {
                     correctAnswer = 3;
                 }
-                    break;
+                break;
             case R.id.radioButton4:
-                if (checked){
+                if (checked) {
                     correctAnswer = 4;
                 }
-                    break;
+                break;
         }
     }
 
-    public void onClickBackButton(View v){
+    public void onClickBackButton(View v) {
         Intent intent = new Intent(getApplicationContext(), QuestionListActivity.class);
         startActivity(intent);
     }

@@ -10,20 +10,18 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.project.mcr.nauczyciel02.R;
-import com.project.mcr.nauczyciel02.activity.MainActivity;
-import com.project.mcr.nauczyciel02.endpoint.RetrofitAPI;
+import com.project.mcr.nauczyciel02.activity.user.MainActivity;
+import com.project.mcr.nauczyciel02.network.RetrofitAPI;
 import com.project.mcr.nauczyciel02.model.Category;
 import com.project.mcr.nauczyciel02.model.Question;
 import com.squareup.okhttp.OkHttpClient;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -31,8 +29,6 @@ import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.OkClient;
-
-import static com.project.mcr.nauczyciel02.R.layout.choosen_list_item_test;
 
 /**
  * Created by MCR on 24.11.2016.

@@ -8,15 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.project.mcr.nauczyciel02.R;
-import com.project.mcr.nauczyciel02.endpoint.RetrofitAPI;
+import com.project.mcr.nauczyciel02.network.RetrofitAPI;
 import com.project.mcr.nauczyciel02.model.Answer;
 import com.project.mcr.nauczyciel02.model.Question;
-import com.project.mcr.nauczyciel02.model.Test;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.util.ArrayList;

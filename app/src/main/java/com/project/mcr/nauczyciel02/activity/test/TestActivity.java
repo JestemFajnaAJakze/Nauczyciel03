@@ -9,17 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project.mcr.nauczyciel02.R;
-import com.project.mcr.nauczyciel02.activity.MainActivity;
 import com.project.mcr.nauczyciel02.activity.question.QuestionActivity;
-import com.project.mcr.nauczyciel02.endpoint.RetrofitAPI;
-import com.project.mcr.nauczyciel02.model.Category;
+import com.project.mcr.nauczyciel02.network.RetrofitAPI;
 import com.project.mcr.nauczyciel02.model.Question;
 import com.project.mcr.nauczyciel02.model.Test;
 import com.squareup.okhttp.OkHttpClient;
@@ -47,11 +43,12 @@ public class TestActivity extends Activity implements AdapterView.OnItemClickLis
     private ArrayList<Integer> questionsIdList;
     private Test test;
 
-    List<HashMap<String,Object>> testMapList;
+    List<HashMap<String, Object>> testMapList;
     HashMap<String, Object> testMap;
     private List<Test> testsFinalList;
     private int testCategoryId;
     private String testName, categoryName;
+
     //public static  final String message = "position";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +59,6 @@ public class TestActivity extends Activity implements AdapterView.OnItemClickLis
         chosenTestId = getIntent().getIntExtra("position", 0);
         testName = getIntent().getStringExtra("testName");
         //categoryName = getIntent().getStringExtra("categoryName");
-
-
 
 
         test_listview = (ListView) findViewById(R.id.test_listview);
@@ -88,45 +83,27 @@ public class TestActivity extends Activity implements AdapterView.OnItemClickLis
 
                 test = new Test();
 
-                for(Test t: tests){
+                for (Test t : tests) {
 
                     test.setTest_id(t.getTest_id());
                     test.setTest_name(t.getTest_name());
-                    //test.setCategory_name(t.getCategory_name());
                     categoryName = t.getCategory_name();
                     testCategoryId = t.getCategory_id();
-                    //testName = t.getName();
 
-                    //test.setCategory_id(t.getCategory_id());
-                    // testMapList.add(testMap);
-                    // testsFinalList.add(test);
                 }
-                /*SimpleAdapter adapter = new SimpleAdapter(getApplication(), testMapList, R.layout.list_item_test,
-                        new String [] {"test_name"},new int [] { R.id.testName});
 
-                test_listview.setAdapter(adapter);*/
             }
-
 
 
             @Override
             public void failure(RetrofitError error) {
-                Log.e("TestListActivity", error.getMessage() +"\n"+ error.getStackTrace());
+                Log.e("TestListActivity", error.getMessage() + "\n" + error.getStackTrace());
                 error.printStackTrace();
             }
         };
-        methods.getTestMainInfo(chosenTestId,cb);
-
-
-
-
-
-
+        methods.getTestMainInfo(chosenTestId, cb);
 
     }
-
-
-
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -145,72 +122,72 @@ public class TestActivity extends Activity implements AdapterView.OnItemClickLis
         // TODO Auto-generated method stub
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
-            TextView testNametxt = (TextView)findViewById(R.id.testName) ;
-            testNametxt.setText("Wybrany test: "+testName);
+            TextView testNametxt = (TextView) findViewById(R.id.testName);
+            testNametxt.setText("Wybrany test: " + testName);
 
-        TextView categoryNametxt = (TextView)findViewById(R.id.categoryName) ;
-            categoryNametxt.setText("Wybrana kategoria: "+categoryName);
-
-
-                OkHttpClient mOkHttpClient = new OkHttpClient();
-                mOkHttpClient.setConnectTimeout(15000, TimeUnit.MILLISECONDS);
-                mOkHttpClient.setReadTimeout(15000, TimeUnit.MILLISECONDS);
-
-                restAdapter = new RestAdapter.Builder()
-                        .setEndpoint(API_URL)
-                        .setClient(new OkClient(mOkHttpClient))
-                        .setLogLevel(RestAdapter.LogLevel.FULL)
-                        .build();
-                RetrofitAPI methods = restAdapter.create(RetrofitAPI.class);
+            TextView categoryNametxt = (TextView) findViewById(R.id.categoryName);
+            categoryNametxt.setText("Wybrana kategoria: " + categoryName);
 
 
-                Callback<List<Question>> cb = new Callback<List<Question>>() {
+            OkHttpClient mOkHttpClient = new OkHttpClient();
+            mOkHttpClient.setConnectTimeout(15000, TimeUnit.MILLISECONDS);
+            mOkHttpClient.setReadTimeout(15000, TimeUnit.MILLISECONDS);
 
-                    @Override
-                    public void success(List<Question> questions, retrofit.client.Response response) {
-                        //Log.v("BookListActivity", booksString);
-                        //TypeToken<List<Book>> token = new TypeToken<List<Book>>() {};
-                        //List<Book> books = new Gson().fromJson(booksString, token.getType());
-
-                        questionsIdList = new ArrayList<>();
-                        questionsNameLists = new ArrayList<>();
-                        for(Question q: questions){
+            restAdapter = new RestAdapter.Builder()
+                    .setEndpoint(API_URL)
+                    .setClient(new OkClient(mOkHttpClient))
+                    .setLogLevel(RestAdapter.LogLevel.FULL)
+                    .build();
+            RetrofitAPI methods = restAdapter.create(RetrofitAPI.class);
 
 
-                            questionsIdList.add(q.getQuestion_id());
-                            questionsNameLists.add(q.getName());
+            Callback<List<Question>> cb = new Callback<List<Question>>() {
+
+                @Override
+                public void success(List<Question> questions, retrofit.client.Response response) {
+                    //Log.v("BookListActivity", booksString);
+                    //TypeToken<List<Book>> token = new TypeToken<List<Book>>() {};
+                    //List<Book> books = new Gson().fromJson(booksString, token.getType());
+
+                    questionsIdList = new ArrayList<>();
+                    questionsNameLists = new ArrayList<>();
+                    for (Question q : questions) {
+
+
+                        questionsIdList.add(q.getQuestion_id());
+                        questionsNameLists.add(q.getName());
+                    }
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, questionsNameLists) {
+                        @Override
+                        public View getView(int position, View convertView, ViewGroup parent) {
+                            TextView textView = (TextView) super.getView(position, convertView, parent);
+                            textView.setTextColor(Color.BLACK);
+                            return textView;
                         }
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, questionsNameLists){
-                            @Override
-                            public View getView(int position, View convertView, ViewGroup parent) {
-                                TextView textView = (TextView) super.getView(position, convertView, parent);
-                                textView.setTextColor(Color.BLACK);
-                                return textView;
-                            }
-                        };;
+                    };
+                    ;
 
-                        test_listview.setAdapter(adapter);
-                    }
+                    test_listview.setAdapter(adapter);
+                }
 
 
+                @Override
+                public void failure(RetrofitError error) {
+                    Log.e("QuestionListActivity", error.getMessage() + "\n" + error.getStackTrace());
+                    error.printStackTrace();
+                    Toast.makeText(getApplicationContext(),
+                            "Ten test nie ma podpietych zadnych pytan", Toast.LENGTH_LONG)
+                            .show();
+                }
+            };
+            methods.getTestDetailsInfo(testCategoryId, chosenTestId, cb);
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.e("QuestionListActivity", error.getMessage() +"\n"+ error.getStackTrace());
-                        error.printStackTrace();
-                        Toast.makeText(getApplicationContext(),
-                                "Ten test nie ma podpietych zadnych pytan", Toast.LENGTH_LONG)
-                                .show();
-                    }
-                };
-                methods.getTestDetailsInfo(testCategoryId, chosenTestId, cb);
-
-            }
+        }
 
 
     }
 
-    public void onClickBackButton(View v){
+    public void onClickBackButton(View v) {
         Intent intent = new Intent(getApplicationContext(), TestListActivity.class);
         startActivity(intent);
     }

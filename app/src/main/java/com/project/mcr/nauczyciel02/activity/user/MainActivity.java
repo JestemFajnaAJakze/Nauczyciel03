@@ -1,4 +1,4 @@
-package com.project.mcr.nauczyciel02.activity;
+package com.project.mcr.nauczyciel02.activity.user;
 
 import android.os.Bundle;
 
@@ -7,32 +7,21 @@ import com.project.mcr.nauczyciel02.R;
 import com.project.mcr.nauczyciel02.activity.category.CategoryListActivity;
 import com.project.mcr.nauczyciel02.activity.question.QuestionListActivity;
 import com.project.mcr.nauczyciel02.activity.test.TestListActivity;
-import com.project.mcr.nauczyciel02.activity.user.LoginActivity;
-import com.project.mcr.nauczyciel02.endpoint.RetrofitAPI;
 import com.project.mcr.nauczyciel02.helper.SQLiteHandler;
 import com.project.mcr.nauczyciel02.helper.SessionManager;
 import com.project.mcr.nauczyciel02.model.Category;
 import com.project.mcr.nauczyciel02.model.Teacher;
-import com.squareup.okhttp.OkHttpClient;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import retrofit.Callback;
 import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.OkClient;
 
 public class MainActivity extends Activity {
 

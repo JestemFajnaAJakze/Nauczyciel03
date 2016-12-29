@@ -14,7 +14,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.project.mcr.nauczyciel02.R;
-import com.project.mcr.nauczyciel02.endpoint.RetrofitAPI;
+import com.project.mcr.nauczyciel02.network.RetrofitAPI;
 import com.project.mcr.nauczyciel02.model.Category;
 import com.project.mcr.nauczyciel02.model.Question;
 import com.project.mcr.nauczyciel02.model.SchoolClass;
@@ -169,8 +169,8 @@ public class TestAssignedToClassActivity extends Activity implements AdapterView
         }
 
 
-        /*Intent intent = new Intent(getApplicationContext(), TestListActivity.class);
-        startActivity(intent);*/
+        Intent intent = new Intent(getApplicationContext(), TestListActivity.class);
+        startActivity(intent);
 
 
     }

@@ -8,37 +8,18 @@ import com.project.mcr.nauczyciel02.R;
  * Created by MCR on 24.10.2016.
  */
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.Request.Method;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 
-import com.project.mcr.nauczyciel02.activity.MainActivity;
-import com.project.mcr.nauczyciel02.activity.category.CategoryListActivity;
 import com.project.mcr.nauczyciel02.app.AppConfig;
 import com.project.mcr.nauczyciel02.app.AppController;
-import com.project.mcr.nauczyciel02.endpoint.RetrofitAPI;
-import com.project.mcr.nauczyciel02.helper.SQLiteHandler;
-import com.project.mcr.nauczyciel02.helper.SessionManager;
-import com.project.mcr.nauczyciel02.model.Category;
+import com.project.mcr.nauczyciel02.network.RetrofitAPI;
 import com.project.mcr.nauczyciel02.model.Teacher;
 import com.squareup.okhttp.OkHttpClient;
 
