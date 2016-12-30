@@ -72,55 +72,19 @@ public class TestListActivity extends Activity implements AdapterView.OnItemClic
                 testsFinalList = new ArrayList<Test>();
                 testsFinalListNames = new ArrayList<>();
                 testsFinalListIds = new ArrayList<>();
-                 //test = new Test();
 
-                List<HashMap<String,Object>> testMapList = new ArrayList<>();
                 for(Test t: tests){
-                    HashMap<String, Object> testMap = new HashMap<>();
 
                     try {
-
-                       /* testMap.put(t.getClass().getField("test_id").getName(),t.getTest_id());
-                        testMap.put(t.getClass().getField("name").getName(),t.getName());*/
-//                        test.setTest_id(t.getTest_id());
-//                        test.setTest_name(t.getTest_name());
-//                        test.setCategory_name(t.getCategory_name());
-//                        test.setCategory_id(t.getCategory_id());
-
                         testsFinalListNames.add(t.getName());
                         testsFinalListIds.add(t.getTest_id());
                         testsFinalList.add(t);
 
-                        /*test.setTest_id(t.getTest_id());
-                        test.setTest_name(t.getTest_name());
-                        test.setCategory_name(t.getCategory_name());
-                        test.setCategory_id(t.getCategory_id());
-*/
-
-                        //testMapList.add(testMap);
-                        //testsFinalList.add(test);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, testsFinalListNames){
-                    @Override
-                    public View getView(int position, View convertView, ViewGroup parent) {
-                        TextView textView = (TextView) super.getView(position, convertView, parent);
-                        textView.setTextColor(Color.BLACK);
-                        return textView;
-                    }
-                };;//{
-                    /*@Override
-                    public View getView(int position, View convertView, ViewGroup parent) {
-                        View view = super.getView(position, convertView, parent);
-                        TextView text = (TextView) view.findViewById(R.id.testName);
-                        text.setTextColor(Color.BLUE);
-                        return view;
-                    }
-                };;*/
-                /*SimpleAdapter adapter = new SimpleAdapter(getApplication(), testsFinalList, R.layout.list_item_test,
-                        new String [] {"name"},new int [] { R.id.testName});*/
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, testsFinalListNames);
 
                 test_listview.setAdapter(adapter);
             }
@@ -165,45 +129,20 @@ public class TestListActivity extends Activity implements AdapterView.OnItemClic
                 testsFinalList = new ArrayList<Test>();
                 testsFinalListNames = new ArrayList<>();
                 testsFinalListIds = new ArrayList<>();
-                //test = new Test();
 
-                List<HashMap<String,Object>> testMapList = new ArrayList<>();
                 for(Test t: tests){
-                    HashMap<String, Object> testMap = new HashMap<>();
 
                     try {
-
-                       /* testMap.put(t.getClass().getField("test_id").getName(),t.getTest_id());
-                        testMap.put(t.getClass().getField("name").getName(),t.getName());*/
-//                        test.setTest_id(t.getTest_id());
-//                        test.setTest_name(t.getTest_name());
-//                        test.setCategory_name(t.getCategory_name());
-//                        test.setCategory_id(t.getCategory_id());
 
                         testsFinalListNames.add(t.getName());
                         testsFinalListIds.add(t.getTest_id());
                         testsFinalList.add(t);
 
-                        /*test.setTest_id(t.getTest_id());
-                        test.setTest_name(t.getTest_name());
-                        test.setCategory_name(t.getCategory_name());
-                        test.setCategory_id(t.getCategory_id());
-*/
-
-                        //testMapList.add(testMap);
-                        //testsFinalList.add(test);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, testsFinalListNames){
-                    @Override
-                    public View getView(int position, View convertView, ViewGroup parent) {
-                        TextView textView = (TextView) super.getView(position, convertView, parent);
-                        textView.setTextColor(Color.BLACK);
-                        return textView;
-                    }
-                };
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, testsFinalListNames);
                 test_listview.setAdapter(adapter);
             }
 
@@ -233,9 +172,7 @@ public class TestListActivity extends Activity implements AdapterView.OnItemClic
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        /*Toast.makeText(getApplicationContext(),
-                "Element: "+position, Toast.LENGTH_LONG)
-                .show();*/
+
         int choosenTestId = 0;
         choosenTestId = testsFinalListIds.get(position);
         //choosenTestId = position+1;

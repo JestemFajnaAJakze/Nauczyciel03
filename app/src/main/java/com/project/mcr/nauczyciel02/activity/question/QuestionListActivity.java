@@ -80,14 +80,7 @@ public class QuestionListActivity extends Activity implements AdapterView.OnItem
                     categoryNameList.add(c.getName());
 
                 }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, categoryNameList){
-                    @Override
-                    public View getView(int position, View convertView, ViewGroup parent) {
-                        TextView textView = (TextView) super.getView(position, convertView, parent);
-                        textView.setTextColor(Color.BLACK);
-                        return textView;
-                    }
-                };;
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, categoryNameList);
 
                 spinner.setAdapter(adapter);
             }
@@ -99,14 +92,7 @@ public class QuestionListActivity extends Activity implements AdapterView.OnItem
                 error.printStackTrace();
 
                 questionsNameList.add("Dla wybranej kategorii nie ma zadnych pytan.");
-                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, questionsNameList){
-                    @Override
-                    public View getView(int position, View convertView, ViewGroup parent) {
-                        TextView textView = (TextView) super.getView(position, convertView, parent);
-                        textView.setTextColor(Color.BLACK);
-                        return textView;
-                    }
-                };;
+                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, questionsNameList);
                 choosenQuestionList.setAdapter(adapter2);
 
             }
@@ -156,14 +142,7 @@ public class QuestionListActivity extends Activity implements AdapterView.OnItem
                     categoryNameList.add(c.getName());
 
                 }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, categoryNameList){
-                    @Override
-                    public View getView(int position, View convertView, ViewGroup parent) {
-                        TextView textView = (TextView) super.getView(position, convertView, parent);
-                        textView.setTextColor(Color.BLACK);
-                        return textView;
-                    }
-                };;
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, categoryNameList);
 
                 spinner.setAdapter(adapter);
             }
@@ -221,15 +200,9 @@ public class QuestionListActivity extends Activity implements AdapterView.OnItem
                     questionsIdsList.add(q.getQuestion_id());
                     questionsNameList.add(q.getName());
 
-                    ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, questionsNameList){
-                        @Override
-                        public View getView(int position, View convertView, ViewGroup parent) {
-                            TextView textView = (TextView) super.getView(position, convertView, parent);
-                            textView.setTextColor(Color.BLACK);
-                            return textView;
-                        }
-                    };;
+                    ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, questionsNameList);
                     choosenQuestionList.setAdapter(adapter2);
+
 
                 }
 
@@ -240,14 +213,7 @@ public class QuestionListActivity extends Activity implements AdapterView.OnItem
                 Log.e("TestAddActivity", error.getMessage() + "\n" + error.getStackTrace());
                 error.printStackTrace();
                 questionsNameList.add("Dla wybranej kategorii nie ma zadnych pytan.");
-                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, questionsNameList){
-                    @Override
-                    public View getView(int position, View convertView, ViewGroup parent) {
-                        TextView textView = (TextView) super.getView(position, convertView, parent);
-                        textView.setTextColor(Color.BLACK);
-                        return textView;
-                    }
-                };;
+                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, questionsNameList);
                 choosenQuestionList.setAdapter(adapter2);
             }
         };

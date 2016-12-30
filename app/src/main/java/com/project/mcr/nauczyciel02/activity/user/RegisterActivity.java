@@ -17,8 +17,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
-import com.project.mcr.nauczyciel02.app.AppConfig;
-import com.project.mcr.nauczyciel02.app.AppController;
 import com.project.mcr.nauczyciel02.network.RetrofitAPI;
 import com.project.mcr.nauczyciel02.model.Teacher;
 import com.squareup.okhttp.OkHttpClient;
@@ -55,6 +53,60 @@ public class RegisterActivity extends Activity {
 
         if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
 
+            if (password.length() < 7) {
+
+                Toast.makeText(getApplicationContext(),
+                        "Hasło musi zawierać minimum 8 znaków!", Toast.LENGTH_LONG)
+                        .show();
+
+            } else {
+
+/*
+                OkHttpClient mOkHttpClient2 = new OkHttpClient();
+                mOkHttpClient2.setConnectTimeout(15000, TimeUnit.MILLISECONDS);
+                mOkHttpClient2.setReadTimeout(15000, TimeUnit.MILLISECONDS);
+
+                restAdapter2 = new RestAdapter.Builder()
+                        .setEndpoint(API_URL)
+                        .setClient(new OkClient(mOkHttpClient2))
+                        .setLogLevel(RestAdapter.LogLevel.FULL)
+                        .build();
+                RetrofitAPI methods2 = restAdapter2.create(RetrofitAPI.class);
+
+                Callback<List<Teacher>> cb2 = new Callback<List<Teacher>>() {
+
+                    @Override
+                    public void success(List<Teacher> teachers2, retrofit.client.Response response) {
+                        //try {
+
+                        Toast.makeText(getApplicationContext(),
+                                "Formularz poprawnie zamknięty!", Toast.LENGTH_LONG)
+                                .show();
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(intent);
+                        //}
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+
+                        *//*Toast.makeText(getApplicationContext(),
+                                "Formularz zamkniety poprawnie", Toast.LENGTH_LONG)
+                                .show();
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(intent);*//*
+                        // } catch (Exception e) {
+*//*
+                            Toast.makeText(getApplicationContext(),
+                                    "Nie udalo sie dodac uzytkownika", Toast.LENGTH_SHORT)
+                                    .show();*//*
+
+                    }
+                };
+
+                methods2.addTeacher(email, password, name, cb2);*/
+
+
             OkHttpClient mOkHttpClient = new OkHttpClient();
             mOkHttpClient.setConnectTimeout(15000, TimeUnit.MILLISECONDS);
             mOkHttpClient.setReadTimeout(15000, TimeUnit.MILLISECONDS);
@@ -83,7 +135,7 @@ public class RegisterActivity extends Activity {
 
                         if(isTeacherExist){
                             Toast.makeText(getApplicationContext(),
-                                    "Ten adres email jest juz zajety", Toast.LENGTH_SHORT)
+                                    "Ten adres email jest juz zajety", Toast.LENGTH_LONG)
                                     .show();
 
                         }else {
@@ -129,10 +181,10 @@ public class RegisterActivity extends Activity {
                             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             startActivity(intent);
                             // } catch (Exception e) {
-/*
+//*
                             Toast.makeText(getApplicationContext(),
                                     "Nie udalo sie dodac uzytkownika", Toast.LENGTH_SHORT)
-                                    .show();*/
+                                    .show();//*
 
                         }
                     };
@@ -143,14 +195,15 @@ public class RegisterActivity extends Activity {
             };
 
             methods.isTeacherExist(email, cb);
-
+            }
 
         } else {
             Toast.makeText(getApplicationContext(),
-                    "Uzupelnij dane formularza", Toast.LENGTH_LONG)
+                    "Uzupelnij pola formularza!", Toast.LENGTH_LONG)
                     .show();
         }
     }
+
 
     ;
 

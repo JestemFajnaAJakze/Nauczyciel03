@@ -92,7 +92,7 @@ public class QuestionActivity extends Activity {
                         if (answerIsCorrectList.get(position) == 1) {
                             textView.setTextColor(Color.GREEN);
                         } else {
-                            textView.setTextColor(Color.BLACK);
+                            //textView.setTextColor(Color.WHITE);
                         }
 
                         return textView;

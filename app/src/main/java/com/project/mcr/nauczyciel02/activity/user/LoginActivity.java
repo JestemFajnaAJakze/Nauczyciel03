@@ -20,8 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 
 import com.project.mcr.nauczyciel02.network.RetrofitAPI;
-import com.project.mcr.nauczyciel02.helper.SQLiteHandler;
-import com.project.mcr.nauczyciel02.helper.SessionManager;
+
 import com.project.mcr.nauczyciel02.model.Teacher;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -37,8 +36,7 @@ public class LoginActivity extends Activity {
     private EditText inputEmail;
     private EditText inputPassword;
     private ProgressDialog pDialog;
-    private SessionManager session;
-    private SQLiteHandler db;
+
     private List<Teacher> loggedTeachers;
     Boolean isUserCorrect = false;
     static final String API_URL = "http://192.168.1.100/android_login_api2";
@@ -47,9 +45,10 @@ public class LoginActivity extends Activity {
 
     public void onClickLogin(View v) {
 
-        String email = inputEmail.getText().toString().trim();
-        String password = inputPassword.getText().toString().trim();
-
+      /*  String email = inputEmail.getText().toString().trim();
+        String password = inputPassword.getText().toString().trim();*/
+        String email = "Mariusz@wat.pl";
+        String password = "Mariusz123";
 
         // Check for empty data in the form
         if (!email.isEmpty() && !password.isEmpty()) {

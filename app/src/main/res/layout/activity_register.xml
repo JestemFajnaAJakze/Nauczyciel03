@@ -22,21 +22,39 @@
         android:layout_height="wrap_content"
         android:id="@+id/password"
         android:layout_gravity="center_horizontal"
-        android:hint="Hasło" />
+        android:hint="Hasło"
+        android:password="true" />
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Rejestruj"
-        android:id="@+id/btnRegister"
-        android:layout_gravity="center_horizontal"
-        android:onClick="onClickRegister" />
+        android:layout_gravity="center"
+        android:gravity="center" >
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Zaloguj"
-        android:id="@+id/btnLinkToLoginScreen"
-        android:layout_gravity="center_horizontal"
-        android:onClick="onClickLogin" />
+        <ImageButton
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:id="@+id/imageButton12"
+            android:src="@drawable/back_button3"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="false"
+            android:padding="0dp"
+            android:background="@android:color/transparent"
+            android:onClick="onClickLogin"
+            android:layout_marginRight="30dp" />
+
+        <ImageButton
+            style="@style/Base.V21.Theme.AppCompat.Light.Dialog"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:id="@+id/imageButton13"
+            android:src="@drawable/ok_button3"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="false"
+            android:padding="0dp"
+            android:background="@android:color/transparent"
+            android:onClick="onClickRegister" />
+    </LinearLayout>
+
 </LinearLayout>

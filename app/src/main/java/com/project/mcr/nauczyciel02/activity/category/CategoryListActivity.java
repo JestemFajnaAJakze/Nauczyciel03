@@ -46,11 +46,11 @@ public class CategoryListActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_list);
 
-        category_listview = (ListView) findViewById(R.id.categoryList) ;
+        category_listview = (ListView) findViewById(R.id.categoryList);
 
 
         OkHttpClient mOkHttpClient = new OkHttpClient();
-        mOkHttpClient.setConnectTimeout(15000,TimeUnit.MILLISECONDS);
+        mOkHttpClient.setConnectTimeout(15000, TimeUnit.MILLISECONDS);
         mOkHttpClient.setReadTimeout(15000, TimeUnit.MILLISECONDS);
 
         restAdapter = new RestAdapter.Builder()
@@ -68,30 +68,22 @@ public class CategoryListActivity extends Activity {
 
                 categoryNameList = new ArrayList<>();
                 categoryIdsList = new ArrayList<>();
-                for(Category c: categories){
+                for (Category c : categories) {
 
                     categoryNameList.add(c.getName());
                     categoryIdsList.add(c.getCategory_id());
 
                 }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, categoryNameList){
-                    @Override
-                    public View getView(int position, View convertView, ViewGroup parent) {
-                        TextView textView = (TextView) super.getView(position, convertView, parent);
-                        textView.setTextColor(Color.BLACK);
-                        return textView;
-                    }
-                };
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, categoryNameList);
                 category_listview.setAdapter(adapter);
 
 
             }
 
 
-
             @Override
             public void failure(RetrofitError error) {
-                Log.e("CategoryListActivity", error.getMessage() +"\n"+ error.getStackTrace());
+                Log.e("CategoryListActivity", error.getMessage() + "\n" + error.getStackTrace());
                 error.printStackTrace();
             }
         };
@@ -104,11 +96,11 @@ public class CategoryListActivity extends Activity {
         super.onRestart();
         setContentView(R.layout.activity_category_list);
 
-        category_listview = (ListView) findViewById(R.id.categoryList) ;
+        category_listview = (ListView) findViewById(R.id.categoryList);
 
 
         OkHttpClient mOkHttpClient = new OkHttpClient();
-        mOkHttpClient.setConnectTimeout(15000,TimeUnit.MILLISECONDS);
+        mOkHttpClient.setConnectTimeout(15000, TimeUnit.MILLISECONDS);
         mOkHttpClient.setReadTimeout(15000, TimeUnit.MILLISECONDS);
 
         restAdapter = new RestAdapter.Builder()
@@ -123,33 +115,24 @@ public class CategoryListActivity extends Activity {
 
             @Override
             public void success(List<Category> categories, retrofit.client.Response response) {
-                //Log.v("BookListActivity", booksString);
-                //TypeToken<List<Book>> token = new TypeToken<List<Book>>() {};
-                //List<Book> books = new Gson().fromJson(booksString, token.getType());
 
-                for(Category c: categories){
+
+                for (Category c : categories) {
 
                     categoryNameList.add(c.getName());
                     categoryIdsList.add(c.getCategory_id());
 
                 }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, categoryNameList){
-                    @Override
-                    public View getView(int position, View convertView, ViewGroup parent) {
-                        TextView textView = (TextView) super.getView(position, convertView, parent);
-                        textView.setTextColor(Color.BLACK);
-                        return textView;
-                    }
-                };;
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, categoryNameList);
+
 
                 category_listview.setAdapter(adapter);
             }
 
 
-
             @Override
             public void failure(RetrofitError error) {
-                Log.e("CategoryListActivity", error.getMessage() +"\n"+ error.getStackTrace());
+                Log.e("CategoryListActivity", error.getMessage() + "\n" + error.getStackTrace());
                 error.printStackTrace();
             }
         };
@@ -158,11 +141,12 @@ public class CategoryListActivity extends Activity {
 
     }
 
-    public void onClickAddCategoryActivity(View v){
+    public void onClickAddCategoryActivity(View v) {
         Intent intent = new Intent(getApplicationContext(), CategoryAddActivity.class);
         startActivity(intent);
     }
-    public void onClickBackButton(View v){
+
+    public void onClickBackButton(View v) {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }

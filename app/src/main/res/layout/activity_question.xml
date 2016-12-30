@@ -19,8 +19,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Tresc:"
-        android:id="@+id/questionName"
-        android:textColor="#000000" />
+        android:id="@+id/questionName" />
 
     <ListView
         android:id="@+id/test_listview"
@@ -40,21 +39,20 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center">
+        android:gravity="center" >
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageButton"
-            android:src="@drawable/back_button"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:id="@+id/imageButton5"
+            android:src="@drawable/back_button3"
             android:scaleType="fitXY"
             android:adjustViewBounds="false"
             android:padding="0dp"
             android:background="@android:color/transparent"
-            android:onClick="onClickBackButton" />
+            android:onClick="onClickLogin" />
 
     </LinearLayout>
 

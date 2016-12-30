@@ -145,9 +145,6 @@ public class TestActivity extends Activity implements AdapterView.OnItemClickLis
 
                 @Override
                 public void success(List<Question> questions, retrofit.client.Response response) {
-                    //Log.v("BookListActivity", booksString);
-                    //TypeToken<List<Book>> token = new TypeToken<List<Book>>() {};
-                    //List<Book> books = new Gson().fromJson(booksString, token.getType());
 
                     questionsIdList = new ArrayList<>();
                     questionsNameLists = new ArrayList<>();
@@ -157,14 +154,7 @@ public class TestActivity extends Activity implements AdapterView.OnItemClickLis
                         questionsIdList.add(q.getQuestion_id());
                         questionsNameLists.add(q.getName());
                     }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, questionsNameLists) {
-                        @Override
-                        public View getView(int position, View convertView, ViewGroup parent) {
-                            TextView textView = (TextView) super.getView(position, convertView, parent);
-                            textView.setTextColor(Color.BLACK);
-                            return textView;
-                        }
-                    };
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, questionsNameLists);
                     ;
 
                     test_listview.setAdapter(adapter);

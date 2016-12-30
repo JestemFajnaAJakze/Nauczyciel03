@@ -132,16 +132,7 @@ public class TestAddActivity extends Activity implements AdapterView.OnItemSelec
                     categoryIdList.add(c.getCategory_id());
                     categoryNameList.add(c.getName());
                 }
-                final ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getApplication(), R.layout.list_item_test, categoryNameList){
-                    @Override
-                    public View getView(int position, View convertView, ViewGroup parent) {
-                        TextView textView = (TextView) super.getView(position, convertView, parent);
-                        textView.setTextColor(Color.BLACK);
-                        return textView;
-                    }
-                };;
-
-                spinner.setBackgroundColor(Color.BLUE);
+                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, categoryNameList);
                 spinner.setAdapter(adapter2);
             }
 
@@ -210,9 +201,7 @@ public class TestAddActivity extends Activity implements AdapterView.OnItemSelec
                 }
 
             }
-            /*Toast.makeText(getApplicationContext(),
-                    "Ile wybral: " + selectedQuestions.get(2), Toast.LENGTH_LONG)
-                    .show();*/
+
 
             for (int x = 0; x < selectedQuestions.size(); x++) {
 
@@ -294,14 +283,7 @@ public class TestAddActivity extends Activity implements AdapterView.OnItemSelec
                     questionIdList.add(q.getQuestion_id());
                     questionNameList.add(q.getName());
                 }
-                adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_multiple_choice, questionNameList){
-                    @Override
-                    public View getView(int position, View convertView, ViewGroup parent) {
-                        TextView textView = (TextView) super.getView(position, convertView, parent);
-                        textView.setTextColor(Color.BLACK);
-                        return textView;
-                    }
-                };;
+                adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_multiple_choice, questionNameList);
 
                 choosenQuestionList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
                 choosenQuestionList.setAdapter(adapter);

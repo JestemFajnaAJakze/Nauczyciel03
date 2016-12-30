@@ -7,8 +7,7 @@ import com.project.mcr.nauczyciel02.R;
 import com.project.mcr.nauczyciel02.activity.category.CategoryListActivity;
 import com.project.mcr.nauczyciel02.activity.question.QuestionListActivity;
 import com.project.mcr.nauczyciel02.activity.test.TestListActivity;
-import com.project.mcr.nauczyciel02.helper.SQLiteHandler;
-import com.project.mcr.nauczyciel02.helper.SessionManager;
+
 import com.project.mcr.nauczyciel02.model.Category;
 import com.project.mcr.nauczyciel02.model.Teacher;
 
@@ -32,8 +31,6 @@ public class MainActivity extends Activity {
     private Button questionButton;
     private Button testButton;
 
-    private SQLiteHandler db;
-    private SessionManager session;
     static final String API_URL = "http://192.168.1.100/android_login_api2";
     RestAdapter restAdapter;
     public Teacher loggedTeacher;
