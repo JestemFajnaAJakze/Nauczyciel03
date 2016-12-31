@@ -21,18 +21,17 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="4"
         android:layout_gravity="center"
-        android:gravity="center"
-        android:weightSum="1"
-        android:layout_weight="1" >
+        android:gravity="center" >
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageButton7"
-            android:src="@drawable/back_button2"
-            android:scaleType="fitCenter"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:id="@+id/imageButton3"
+            android:src="@drawable/back_button3"
+            android:scaleType="fitXY"
             android:adjustViewBounds="false"
             android:padding="0dp"
             android:background="@android:color/transparent"
@@ -40,12 +39,14 @@
             android:layout_marginRight="30dp" />
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageButton8"
-            android:src="@drawable/add_button2"
-            android:scaleType="center"
-            android:adjustViewBounds="true"
+            style="@style/Base.V21.Theme.AppCompat.Light.Dialog"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:id="@+id/imageButton4"
+            android:src="@drawable/add_button3"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="false"
+            android:padding="0dp"
             android:background="@android:color/transparent"
             android:onClick="onClickAddCategoryActivity" />
     </LinearLayout>
