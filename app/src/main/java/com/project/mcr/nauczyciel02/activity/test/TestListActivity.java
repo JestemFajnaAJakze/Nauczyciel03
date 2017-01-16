@@ -37,12 +37,11 @@ public class TestListActivity extends Activity implements AdapterView.OnItemClic
     static final String API_URL = "http://192.168.1.100/android_login_api2";
     ListView test_listview;
     RestAdapter restAdapter;
-    List<HashMap<String,Object>> testMapList;
-    HashMap<String, Object> testMap;
+
     private ArrayList<Test> testsFinalList;
     private ArrayList<String>testsFinalListNames;
     private ArrayList<Integer>testsFinalListIds;
-    private Test test;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

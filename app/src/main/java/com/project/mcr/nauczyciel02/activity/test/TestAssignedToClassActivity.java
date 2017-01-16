@@ -36,23 +36,14 @@ import retrofit.client.Response;
  */
 public class TestAssignedToClassActivity extends Activity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
-    private EditText questionNameInput;
-    private EditText asnwerAInput;
-    private EditText asnwerBInput;
-    private EditText asnwerCInput;
-    private EditText asnwerDInput;
-    private Spinner spinner;
-    private int choosenCategoryId;
-    private List<HashMap<String, Object>> categoryDropList;
-    private HashMap<String, Object> categoryMap;
-    private List<Category> categoriesFinalList;
+
+
     private ListView choosenQuestionList;
-    private List<Question> finalQuestionList;
+
     private int currentTestId;
     static final String API_URL = "http://192.168.1.100/android_login_api2";
     RestAdapter restAdapter;
     RestAdapter restAdapter2;
-    private Question currentQuestion;
     private ArrayList<String> classesNameList, categoryNameList;
     private ArrayList<Integer> classesIdList, categoryIdList, selectedClasses;
     private ArrayAdapter<String> adapter;

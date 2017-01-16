@@ -43,8 +43,7 @@ public class TestActivity extends Activity implements AdapterView.OnItemClickLis
     private ArrayList<Integer> questionsIdList;
     private Test test;
 
-    List<HashMap<String, Object>> testMapList;
-    HashMap<String, Object> testMap;
+
     private List<Test> testsFinalList;
     private int testCategoryId;
     private String testName, categoryName;

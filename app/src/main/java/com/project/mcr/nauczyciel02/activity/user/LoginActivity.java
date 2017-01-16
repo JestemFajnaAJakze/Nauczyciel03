@@ -30,15 +30,10 @@ import retrofit.RetrofitError;
 import retrofit.client.OkClient;
 
 public class LoginActivity extends Activity {
-    private static final String TAG = RegisterActivity.class.getSimpleName();
-    private Button btnLogin;
-    private Button btnLinkToRegister;
+
     private EditText inputEmail;
     private EditText inputPassword;
-    private ProgressDialog pDialog;
 
-    private List<Teacher> loggedTeachers;
-    Boolean isUserCorrect = false;
     static final String API_URL = "http://192.168.1.100/android_login_api2";
     RestAdapter restAdapter;
     private Teacher loggedTeacher;

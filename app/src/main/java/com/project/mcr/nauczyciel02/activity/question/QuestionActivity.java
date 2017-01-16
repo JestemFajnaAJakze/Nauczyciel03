@@ -35,14 +35,14 @@ public class QuestionActivity extends Activity {
     String categoryName, questionName;
 
     static final String API_URL = "http://192.168.1.100/android_login_api2";
-    RestAdapter restAdapter, restAdapter2;
-    int chosenTestId;
+    RestAdapter restAdapter2;
+    /*int chosenTestId;
     List<HashMap<String, Object>> testMapList;
     HashMap<String, Object> testMap;
     private List<Question> questionsFinalList;
     private Question question;
     private List<Answer> answerFinalList;
-    private Answer answer;
+    private Answer answer;*/
 
 
     private ArrayList<String> answerNameList;

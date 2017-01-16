@@ -27,14 +27,8 @@ public class MainActivity extends Activity {
     private TextView txtName;
     private TextView txtEmail;
     private Button btnLogout;
-    private Button categoryButton;
-    private Button questionButton;
-    private Button testButton;
 
-    static final String API_URL = "http://192.168.1.100/android_login_api2";
-    RestAdapter restAdapter;
-    public Teacher loggedTeacher;
-    private List<Teacher> loggedTeachers;
+
     private String teacherName, teacherEmail;
 
 
@@ -86,8 +80,8 @@ public class MainActivity extends Activity {
         teacherName = getIntent().getStringExtra("teacherName");
         teacherEmail = getIntent().getStringExtra("teacherEmail");
 
-        txtName.setText("Nazwa uzytkownika: "+teacherName);
-        txtEmail.setText("Email: "+teacherEmail);
+        txtName.setText("Nazwa uzytkownika: " + teacherName);
+        txtEmail.setText("Email: " + teacherEmail);
 
 
     }

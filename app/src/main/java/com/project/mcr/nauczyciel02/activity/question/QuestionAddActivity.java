@@ -46,9 +46,9 @@ public class QuestionAddActivity extends Activity implements AdapterView.OnItemS
     private EditText asnwerDInput;
     private Spinner spinner;
     private int choosenCategoryId;
-    private List<HashMap<String, Object>> categoryDropList;
+   /* private List<HashMap<String, Object>> categoryDropList;
     private HashMap<String, Object> categoryMap;
-    private List<Category> categoriesFinalList;
+    private List<Category> categoriesFinalList;*/
     private int currentQuestionId;
     private RadioButton radioButton;
     private RadioButton radioButton2;

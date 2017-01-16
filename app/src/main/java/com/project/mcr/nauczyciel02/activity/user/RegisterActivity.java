@@ -36,7 +36,7 @@ public class RegisterActivity extends Activity {
     private Boolean isTeacherExist;
 
     static final String API_URL = "http://192.168.1.100/android_login_api2";
-    RestAdapter restAdapter, restAdapter2;
+    RestAdapter restAdapter2;
 
 
     public void onClickLogin(View v) {
